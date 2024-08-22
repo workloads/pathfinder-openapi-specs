@@ -270,14 +270,12 @@ components:
       type: object
 
     WifiConnectionResponse:
-      description: Response containing the Wi-Fi configuration update status
-      properties:
-        updated:
-          description: Update status
-          type: boolean
-      required:
-        - updated
-      type: object
+      description: Response containing the Wi-Fi network
+      items:
+        $ref: '#/components/schemas/WifiNetworkItem'
+      type: array
+      maximum: 1
+      minimum: 1
 
     WifiNetworkItem:
       description: Structure of a single Wi-Fi network item
@@ -451,7 +449,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WifiNetworkItem'
+                $ref: '#/components/schemas/WifiNetworksResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
