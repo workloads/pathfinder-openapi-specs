@@ -1,0 +1,706 @@
+---
+
+openapi: 3.1.0
+
+# see https://swagger.io/specification/#info-object
+info:
+  title: Pathfinder - Mobility Platform
+  version: 0.10.0
+
+  # see https://swagger.io/specification/#contact-object
+  contact:
+    email: github.com/workloads
+    name: Project Maintainers
+    url: 'https://github.com/workloads/pathfinder/issues'
+
+  description: |
+    This OpenAPI specification describes the programmatic interface of the _Pathfinder Mobility Platform_.
+
+    For more information, see the `externalDocs` in this file as well as [github.com/workloads/pathfinder](https://github.com/workloads/pathfinder).
+
+  # see https://swagger.io/specification/#license-object
+  license:
+    name: Apache License 2.0
+    identifier: Apache-2.0
+
+  summary: Pathfinder Mobility Platform
+
+  termsOfService: 'https://github.com/workloads/.github/blob/main/CONTRIBUTING.md'
+
+  # see https://github.com/Redocly/redoc/blob/main/docs/redoc-vendor-extensions.md#x-logo
+  x-logo:
+    url: 'https://assets.workloads.io/pathfinder/mobility-platform-logo.png'
+    backgroundColor: '#282433'
+    altText: Pathfinder logo
+
+# see https://swagger.io/specification/#components-object
+components:
+  # see https://swagger.io/specification/#schema-object
+  schemas:
+    BatteryItem:
+      description: Structure of a single battery item
+      properties:
+        unit:
+          description: Unit of the battery item
+          examples:
+            - mA # milliampere
+            - mV # millivolt
+            - V # volt
+          type: string
+        value:
+          description: Value of the battery item
+          examples:
+            - 1
+            - 2
+          type: integer
+      required:
+        - unit
+        - value
+      type: object
+
+    BatteryResponse:
+      description: Response containing the battery status
+      items:
+        $ref: '#/components/schemas/BatteryItem'
+      maxItems: 4
+      type: array
+
+    DeviceResponse:
+      description: Response containing the device status
+      properties:
+        features:
+          additionalProperties:
+            $ref: '#/components/schemas/FeatureFlagItem'
+          description: Feature flags
+          examples:
+            - isHttpEnabled: true
+            - isInsightsEnabled: false
+          type: object
+        identifiers:
+          description: Identifiers
+          properties:
+            long:
+              description: Long identifier
+              examples:
+                - pathfinder-000000000000C418
+              type: string
+            short:
+              description: Short identifier
+              examples:
+                - pathfinder-c418
+              type: string
+          required:
+            - short
+            - long
+          type: object
+        name:
+          description: Name
+          examples:
+            - Pathfinder
+          type: string
+        uptime:
+          description: Uptime (in seconds)
+          examples:
+            - 1234
+          type: number
+        versions:
+          description: Versions
+          properties:
+            api:
+              description: API version
+              examples:
+                - 0.1.0
+                - 1.0.0
+              type: string
+            app:
+              description: Application version
+              examples:
+                - 0.10.0
+                - 1.0.0
+              type: string
+          required:
+            - api
+            - app
+      required:
+        - features
+        - identifiers
+        - name
+        - uptime
+        - versions
+      type: object
+
+    DeviceRebootResponse:
+      description: Response containing the reboot status
+      properties:
+        rebooting:
+          description: Reboot status
+          type: boolean
+      required:
+        - rebooting
+      type: object
+
+    ErrorResponse:
+      description: Response containing the error message
+      properties:
+        message:
+          description: Error message
+          examples:
+            - Bad Request           # 400
+            - Unauthorized          # 401
+            - Forbidden             # 403
+            - Not Found             # 404
+            - Internal Server Error # 500
+          type: string
+        status:
+          description: HTTP status code
+          enum:
+            - 400
+            - 401
+            - 403
+            - 404
+            - 500
+          type: number
+      required:
+        - message
+        - status
+      type: object
+
+    FeatureFlagItem:
+      description: Structure of a single feature flag item
+      type: boolean
+
+    HealthzResponse:
+      description: Response containing the health status
+      properties:
+        ready:
+          description: Health status
+          type: boolean
+      required:
+        - ready
+      type: object
+
+    MovementLockResponse:
+      description: Response containing the movement lock status
+      properties:
+        locked:
+          description: Movement lock status
+          type: boolean
+      required:
+        - locked
+      type: object
+
+    MovementStepItem:
+      description: Structure of a single movement step
+
+      # see https://swagger.io/specification/#external-documentation-object
+      externalDocs:
+        description: Documentation on the Schema of a Movement Plans
+        url: 'https://github.com/workloads/pathfinder-openapi-specs/blob/main/movement-plan/MOVEMENT_PLAN.md'
+      properties:
+        angle:
+          description: Angle (in degrees) of movement
+          examples:
+            - 0
+            - 90
+            - -180
+          maximum: 360
+          minimum: -360
+          type: integer
+        direction:
+          description: Direction of movement
+          enum:
+            - backward
+            - forward
+          type: string
+        distance:
+          description: Distance (in centimeters) of movement
+          examples:
+            - 1
+            - 10
+            - 100
+          maximum: 100
+          minimum: 1
+          type: number
+      required:
+        - angle
+        - direction
+        - distance
+      type: object
+
+    MovementRequest:
+      description: Request for a movement
+      properties:
+        name:
+          description: Name of the movement plan
+          type: string
+        persist:
+          description: Persist the movement plan to the filesystem
+          type: boolean
+        steps:
+          description: List of movement steps
+          items:
+            $ref: '#/components/schemas/MovementStepItem'
+          maxItems: 50
+          minItems: 1
+          type: array
+      required:
+        - name
+        - persist
+        - steps
+      type: object
+
+    MovementResponse:
+      description: Response containing the movement operation status
+      properties:
+        moving:
+          description: Movement operations status
+          type: boolean
+      required:
+        - moving
+      type: object
+
+    ReadyzResponse:
+      description: Response containing the readiness status
+      properties:
+        ready:
+          description: Readiness status
+          examples:
+            - false
+            - true
+          type: boolean
+      required:
+        - ready
+      type: object
+
+    WifiNetworkItem:
+      description: Structure of a single Wi-Fi network item
+      properties:
+        encrypted:
+          description: Encryption status
+          examples:
+            - false
+            - true
+          type: boolean
+        rssi:
+          description: RSSI (in dBm)
+          examples:
+            - -30  # great signal
+            - -67  # okay signal
+            - -90  # unusable signal
+          format: float
+          type: number
+        ssid:
+          description: SSID
+          examples:
+            - workloads
+          type: string
+      required:
+        - encrypted
+        - rssi
+        - ssid
+      type: object
+
+    WifiNetworksResponse:
+      description: Response containing the detected Wi-Fi networks
+      items:
+        $ref: '#/components/schemas/WifiNetworkItem'
+      type: array
+
+  # see https://swagger.io/specification/#responses-object
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+      description: Response containing the error message for a bad request
+
+    Forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+      description: Response containing the error message for a forbidden request
+
+    Healthz:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthzResponse'
+      description: Response containing the health status
+
+    InternalServerError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+      description: Response containing the error message for an internal server error
+
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+      description: Response containing the error message for an unauthorized request
+
+    Readyz:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReadyzResponse'
+      description: Response containing the ready status
+
+  # see https://swagger.io/specification/#security-scheme-object
+  securitySchemes:
+    x-pathfinder-auth:
+      description: Authorization token for endpoints requiring normal authorization
+      in: header
+      name: x-pathfinder-auth
+      type: apiKey
+
+    x-pathfinder-auth-elevated:
+      description: Authorization token for endpoints requiring elevated authorization
+      in: header
+      name: x-pathfinder-auth-elevated
+      type: apiKey
+
+# see https://swagger.io/specification/#external-documentation-object
+externalDocs:
+  description: Project Documentation
+  url: 'https://github.com/workloads/pathfinder'
+
+# see https://swagger.io/specification/#paths-object
+paths:
+  '/v1/device':
+    get:
+      description: Retrieve the device status
+      operationId: getDeviceInformation
+      responses:
+        '200':
+          description: Response containing the device status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Retrieve device status
+      tags:
+        - device
+        - terraform-enabled
+
+  '/v1/device/battery':
+    get:
+      description: Retrieve the battery status
+      operationId: getDeviceBattery
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatteryResponse'
+          description: Response containing the battery status
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Retrieve battery status
+      tags:
+        - device
+        - terraform-enabled
+
+  '/v1/device/reboot':
+    post:
+      description: Initiate a reboot
+      operationId: postDeviceReboot
+      responses:
+        '200':
+          description: Response containing the reboot status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRebootResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - x-pathfinder-auth-elevated: []
+      summary: Initiate reboot
+      tags:
+        - device
+        - terraform-enabled
+
+  '/v1/device/wifi':
+    get:
+      description: Retrieve the Wi-Fi status
+      operationId: getDeviceWifi
+      responses:
+        '200':
+          description: Response containing the Wi-Fi status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WifiNetworksResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Retrieve Wi-Fi status
+      tags:
+        - device-wifi
+        - terraform-enabled
+
+    # TODO: endpoint to connect to (different) Wi-Fi network
+    # This endpoint should not be Terraform-enabled
+
+  '/v1/device/wifi/scan':
+    post:
+      description: Initiate a Wi-Fi scan
+      operationId: postDeviceWifiScan
+      responses:
+        '200':
+          description: Response containing the detected Wi-Fi networks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WifiNetworksResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Initiate Wi-Fi scan
+      tags:
+        - device-wifi
+
+  '/v1/healthz':
+    get:
+      description: Retrieve the health status
+      operationId: getHealthz
+      responses:
+        '200':
+          description: Response containing the health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Healthz'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Retrieve health status
+      tags:
+        - health
+        - terraform-enabled
+
+  '/v1/movement':
+    delete:
+      description: Stop a movement
+      operationId: deleteMovement
+      responses:
+        '200':
+          description: Response containing the movement status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Stop movement
+      tags:
+        - movement
+        - terraform-enabled
+    get:
+      description: Retrieve the movement status
+      operationId: getMovement
+      responses:
+        '200':
+          description: Response containing the movement status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: Response containing the error message for a missing movement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Retrieve movement status
+      tags:
+        - movement
+        - terraform-enabled
+    post:
+      description: Initiate a movement
+      operationId: postMovement
+      responses:
+        '200':
+          description: Response containing the status of the movement request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementRequest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Initiate movement
+      tags:
+        - movement
+        - terraform-enabled
+
+  '/v1/movement/lock':
+    delete:
+      description: Allow movements
+      operationId: deleteMovementLock
+      responses:
+        '200':
+          description: Response containing the movement lock status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementLockResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - x-pathfinder-auth-elevated: []
+      summary: Allow movements
+      tags:
+        - movement
+        - terraform-enabled
+
+    post:
+      description: Disallow movements
+      operationId: postMovementLock
+      responses:
+        '200':
+          description: Response containing the movement lock status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementLockResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Disallow movements
+      tags:
+        - movement
+        - terraform-enabled
+
+    get:
+      description: Retrieve the movement lock status
+      operationId: getMovementLockStatus
+      responses:
+        '200':
+          description: Response containing the movement lock status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementLockResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Retrieve movement lock status
+      tags:
+        - movement
+        - terraform-enabled
+
+  '/v1/readyz':
+    get:
+      description: Retrieve the readiness status
+      operationId: getReadyz
+      responses:
+        '200':
+          description: Response containing the readiness status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Readyz'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Retrieve readiness status
+      tags:
+        - health
+        - terraform-enabled
+
+# security requirements are set on a per-operation basis
+# see https://swagger.io/specification/#security-scheme-object
+security: []
+
+# see https://swagger.io/specification/#server-object
+servers:
+  - description: Mock HTTP interface for testing
+    url: 'http://mock.local.svcs.dev:7284'
+
+  - description: On-device HTTP interface
+    url: 'http://pathfinder-{deviceIdentifier}.local.workloads.io:7284'
+
+    # see https://swagger.io/specification/#server-variable-object
+    variables:
+      deviceIdentifier:
+        default: 0a1b
+        description: short device-specific identifier string (4 characters)
+
+# see https://swagger.io/specification/#tag-object
+tags:
+  - name: authorization
+    description: Endpoints requiring normal authorization
+    x-displayName: Authorization
+
+  - name: authorization-sudo
+    description: Endpoints requiring elevated authorization
+    x-displayName: Elevated Authorization
+
+  - description: Endpoints for retrieving device status
+    name: device
+    x-displayName: Device
+
+  - description: Endpoints for retrieving and managing Wi-Fi connections
+    name: device-wifi
+    x-displayName: Device / Wi-Fi
+
+  - description: Endpoints for retrieving health and readiness status
+    name: health
+    x-displayName: Health
+
+  - name: movement
+    description: Endpoints for managing and monitoring movements
+    x-displayName: Movement
+
+  - name: terraform-enabled
+    description: Endpoints supported by the Terraform Provider for Pathfinder
+    x-displayName: Terraform-enabled
+
+    # see https://swagger.io/specification/#external-documentation-object
+    externalDocs:
+      description: Terraform Provider for Pathfinder
+      url: 'https://github.com/workloads/terraform-provider-pathfinder'
