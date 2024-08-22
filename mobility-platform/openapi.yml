@@ -269,6 +269,16 @@ components:
         - ready
       type: object
 
+    WifiConnectionResponse:
+      description: Response containing the Wi-Fi configuration update status
+      properties:
+        updated:
+          description: Update status
+          type: boolean
+      required:
+        - updated
+      type: object
+
     WifiNetworkItem:
       description: Structure of a single Wi-Fi network item
       properties:
@@ -441,7 +451,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WifiNetworksResponse'
+                $ref: '#/components/schemas/WifiNetworkItem'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
@@ -451,9 +461,24 @@ paths:
       tags:
         - device-wifi
         - terraform-enabled
-
-    # TODO: endpoint to connect to (different) Wi-Fi network
-    # This endpoint should not be Terraform-enabled
+    post:
+      description: Update the Wi-Fi configuration
+      operationId: postDeviceWifiChange
+      responses:
+        '200':
+          description: Response containing the detected Wi-Fi networks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WifiConnectionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security: []
+      summary: Update Wi-Fi configuration
+      tags:
+        - device-wifi
 
   '/v1/device/wifi/scan':
     post:
