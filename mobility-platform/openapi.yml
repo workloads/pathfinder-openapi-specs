@@ -43,9 +43,9 @@ components:
         unit:
           description: Unit of the battery item
           examples:
-            - mA # milliampere
-            - mV # millivolt
-            - V # volt
+            - mA  # milliampere
+            - mV  # millivolt
+            - V   # volt
           type: string
         value:
           description: Value of the battery item
@@ -145,11 +145,11 @@ components:
         message:
           description: Error message
           examples:
-            - Bad Request           # 400
-            - Unauthorized          # 401
-            - Forbidden             # 403
-            - Not Found             # 404
-            - Internal Server Error # 500
+            - Bad Request            # 400
+            - Unauthorized           # 401
+            - Forbidden              # 403
+            - Not Found              # 404
+            - Internal Server Error  # 500
           type: string
         status:
           description: HTTP status code
