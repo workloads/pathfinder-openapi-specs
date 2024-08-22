@@ -264,9 +264,6 @@ components:
       properties:
         ready:
           description: Readiness status
-          examples:
-            - false
-            - true
           type: boolean
       required:
         - ready
@@ -277,9 +274,6 @@ components:
       properties:
         encrypted:
           description: Encryption status
-          examples:
-            - false
-            - true
           type: boolean
         rssi:
           description: RSSI (in dBm)
