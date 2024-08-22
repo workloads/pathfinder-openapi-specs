@@ -1,0 +1,37 @@
+---
+
+# see https://redocly.com/docs/cli/configuration/reference/apis
+# see https://redocly.com/docs/cli/configuration/reference/apis#api-object
+apis:
+  mobility-platform@v1:
+    root: ./mobility-platform/openapi.yml
+
+# see https://redocly.com/docs/cli/configuration/reference/extends
+extends:
+  - recommended
+
+# see https://redocly.com/docs/cli/configuration/reference/rules
+rules:
+  # ignore requirement for `info.license.url` as the spec provides `info.license.identifier`
+  # see https://redocly.com/docs/cli/rules/info-license-url
+  info-license-url: off  # yamllint disable-line rule:truthy
+
+# see https://redocly.com/docs/cli/configuration#configure-openapi-features-and-documentation-styles-in-theme
+theme:
+  # see https://redocly.com/docs/redoc/config
+  openapi:
+    disableSearch: false
+
+    # see https://redocly.com/docs/redoc/config#expandresponses
+    expandResponses: '200'
+
+    # see https://redocly.com/docs/api-reference-docs/guides/generate-code-samples#api-docs-configuration
+    generateCodeSamples:
+      languages:
+        - lang: curl
+
+    hideDownloadButton: true
+    hideHostname: true
+    hideLoading: true
+    nativeScrollbars: true
+    requiredPropsFirst: true
