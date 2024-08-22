@@ -393,6 +393,8 @@ paths:
       tags:
         - device
         - terraform-enabled
+      x-terraform-types:
+        - datasource
 
   '/v1/device/battery':
     get:
@@ -414,6 +416,8 @@ paths:
       tags:
         - device
         - terraform-enabled
+      x-terraform-types:
+        - datasource
 
   '/v1/device/reboot':
     post:
@@ -437,7 +441,6 @@ paths:
       summary: Initiate reboot
       tags:
         - device
-        - terraform-enabled
 
   '/v1/device/wifi':
     get:
@@ -459,6 +462,9 @@ paths:
       tags:
         - device-wifi
         - terraform-enabled
+      x-terraform-types:
+        - datasource
+
     post:
       description: Update the Wi-Fi configuration
       operationId: postDeviceWifiChange
@@ -479,9 +485,9 @@ paths:
         - device-wifi
 
   '/v1/device/wifi/scan':
-    post:
+    get:
       description: Initiate a Wi-Fi scan
-      operationId: postDeviceWifiScan
+      operationId: getDeviceWifiScan
       responses:
         '200':
           description: Response containing the detected Wi-Fi networks
@@ -497,6 +503,8 @@ paths:
       summary: Initiate Wi-Fi scan
       tags:
         - device-wifi
+      x-terraform-types:
+        - datasource
 
   '/v1/healthz':
     get:
@@ -518,6 +526,8 @@ paths:
       tags:
         - health
         - terraform-enabled
+      x-terraform-types:
+        - datasource
 
   '/v1/movement':
     delete:
@@ -539,6 +549,9 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      x-terraform-types:
+        - resource
+
     get:
       description: Retrieve the movement status
       operationId: getMovement
@@ -564,6 +577,10 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      x-terraform-types:
+        - datasource
+        - resource
+
     post:
       description: Initiate a movement
       operationId: postMovement
@@ -585,6 +602,8 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      x-terraform-types:
+        - resource
 
   '/v1/movement/lock':
     delete:
@@ -606,7 +625,6 @@ paths:
       summary: Allow movements
       tags:
         - movement
-        - terraform-enabled
 
     post:
       description: Disallow movements
@@ -626,7 +644,6 @@ paths:
       summary: Disallow movements
       tags:
         - movement
-        - terraform-enabled
 
     get:
       description: Retrieve the movement lock status
@@ -647,6 +664,8 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      x-terraform-types:
+        - datasource
 
   '/v1/readyz':
     get:
@@ -668,6 +687,8 @@ paths:
       tags:
         - health
         - terraform-enabled
+      x-terraform-types:
+        - datasource
 
 # security requirements are set on a per-operation basis
 # see https://swagger.io/specification/#security-scheme-object
