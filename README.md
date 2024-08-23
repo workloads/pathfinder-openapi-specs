@@ -20,7 +20,7 @@
 Pathfinder consists of multiple components, each with their own API specification.
 
 - Mobility Platform: [mobility-platform/openapi.yml](./mobility-platform/openapi.yml)
-- Vision Platform: [vision-platform/openapi.yml](./vision-platform/openapi.yml)
+- Vision Platform: `pending`
 
 ## Requirements
 
