@@ -4,11 +4,12 @@
 # see https://redocly.com/docs/cli/configuration/reference/apis#api-object
 apis:
   mobility-platform@v1:
-    root: ../mobility-platform/openapi.yml
+    # see https://redocly.com/docs/cli/configuration/reference/decorators
+    decorators:
+      tfplugingen-config/remove-cruft: on  # yamllint disable-line rule:truthy
+      tfplugingen-config/render-config: on  # yamllint disable-line rule:truthy
 
-# see https://redocly.com/docs/cli/configuration/reference/decorators
-decorators:
-  tfplugingen-openapi-decorator/prepare-config: on  # yamllint disable-line rule:truthy
+    root: ../mobility-platform/openapi.yml
 
 # see https://redocly.com/docs/cli/configuration/reference/extends
 extends:
@@ -17,7 +18,7 @@ extends:
 
 # see https://redocly.com/docs/cli/configuration/reference/plugins
 plugins:
-  - "./plugins/decorator-tfplugingen.js"
+  - "../../redocly-tfplugingen-config/main.js"
 
 # see https://redocly.com/docs/cli/configuration/reference/rules
 rules:

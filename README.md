@@ -41,6 +41,7 @@ lint-redocly-config       lint Redocly config file using redocly                
 lint-spectral             lint OAS files using spectral                         `make lint-spectral`
 redocly-preview           preview Redocly docs using redocly                    `make redocly-preview`
 redocly-build             build Redocly docs using redocly                      `make redocly-build`
+redocly-bundle            bundle Redocly package using redocly                  `make redocly-bundle`
 redocly-generate-ignore   generate (or update) an ignores file using redocly    `make redocly-generate-ignore`
 help                      display a list of Make Targets                        `make help`
 _listincludes             list all included Makefiles and *.mk files            `make _listincludes`
@@ -55,8 +56,8 @@ For a list of current (and past) contributors to this repository, see [GitHub](h
 
 ## License
 
-Licensed under the General Public License, Version 3.0 (the "License").
+Licensed under the Apache License, Version 2.0 (the "License").
 
-You may download a copy of the License at [gnu.org/licenses/gpl-3.0.txt](https://www.gnu.org/licenses/gpl-3.0.txt).
+You may download a copy of the License at [apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 See the License for the specific language governing permissions and limitations under the License.
