@@ -7,12 +7,20 @@
 <!-- TOC -->
 * [Pathfinder OpenAPI Specifications](#pathfinder-openapi-specifications)
   * [Table of Contents](#table-of-contents)
+  * [Specifications](#specifications)
   * [Requirements](#requirements)
       * [Development](#development)
   * [Usage](#usage)
   * [Contributors](#contributors)
   * [License](#license)
 <!-- TOC -->
+
+## Specifications
+
+Pathfinder consists of multiple components, each with their own API specification.
+
+- Mobility Platform: [mobility-platform/openapi.yml](./mobility-platform/openapi.yml)
+- Vision Platform: [vision-platform/openapi.yml](./vision-platform/openapi.yml)
 
 ## Requirements
 
