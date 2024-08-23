@@ -35,8 +35,10 @@ jobs:
       fail-fast: false
       matrix:
         tools:
-          - "github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework@latest"
-          - "github.com/hashicorp/terraform-plugin-codegen-openapi/cmd/tfplugingen-openapi@latest"
+          - binary: tfplugingen-framework
+            repository: "github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework@latest"
+          - binary: tfplugingen-openapi
+            repository: "github.com/hashicorp/terraform-plugin-codegen-openapi/cmd/tfplugingen-openapi@latest"
 
     timeout-minutes: 5
 
@@ -68,24 +70,15 @@ jobs:
           key: "${{ env.CACHE_KEY }}"
           path: ${{ env.CACHE_PATHS }}
 
-      - name: Install `${{ matrix.tools }}`
+      - name: Install `${{ matrix.tools.binary }}`
         run: |
           go \
             install \
-              "${{ matrix.tools }}"
+              "${{ matrix.tools.repository }}"
 
-      - name: Which `tfplugingen-openapi`
+      - name: Print `${{ matrix.tools.binary }}` version
         run: |
-          which tfplugingen-openapi
-
-      - name: Print `tfplugingen-openapi` version
-        run: |
-          tfplugingen-openapi \
-            --version
-
-      - name: Print `tfplugingen-framework` version
-        run: |
-          tfplugingen-framework \
+          ${{ matrix.tools.binary }} \
             --version
 
   generate-provider:
