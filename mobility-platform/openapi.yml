@@ -423,11 +423,7 @@ paths:
       operationId: getDeviceInformation
       responses:
         '200':
-          description: Response containing the device status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/Device'
+          $ref: '#/components/responses/Device'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
@@ -556,11 +552,7 @@ paths:
       operationId: getHealthz
       responses:
         '200':
-          description: Response containing the health status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/Healthz'
+          $ref: '#/components/responses/Healthz'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
@@ -716,11 +708,7 @@ paths:
       operationId: getReadyz
       responses:
         '200':
-          description: Response containing the readiness status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/Readyz'
+          $ref: '#/components/responses/Readyz'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
