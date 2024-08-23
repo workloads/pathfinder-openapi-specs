@@ -32,20 +32,21 @@ This repository provides a [Makefile](./Makefile)-based workflow.
 Running `make` without commands will print out the following help information:
 
 ```text
-🧭 PATHFINDER OPENAPI SPEC
+🧭 PATHFINDER OPENAPI SPECS
 
-Target                Description                                   Usage
-lint-yaml             lint YAML files using yamllint                `make lint-yaml`
-lint-redocly          lint OAS files using redocly                  `make lint-redocly`
-lint-redocly-config   lint Redocly config file using redocly        `make lint-redocly-config`
-lint-spectral         lint OAS files using spectral                 `make lint-spectral`
-redocly-preview       preview Redocly docs using redocly            `make redocly-preview`
-redocly-build         build Redocly docs using redocly              `make redocly-build`
-help                  display a list of Make Targets                `make help`
-_listincludes         list all included Makefiles and *.mk files    `make _listincludes`
-_selfcheck            lint Makefile                                 `make _selfcheck`
-lint-vale             lint prose using vale                         `make lint-vale`
-vale-sync             sync Vale dependencies                        `make vale-sync`
+Target                    Description                                           Usage
+lint-yaml                 lint YAML files using yamllint                        `make lint-yaml`
+lint-redocly              lint OAS files using redocly                          `make lint-redocly`
+lint-redocly-config       lint Redocly config file using redocly                `make lint-redocly-config`
+lint-spectral             lint OAS files using spectral                         `make lint-spectral`
+redocly-preview           preview Redocly docs using redocly                    `make redocly-preview`
+redocly-build             build Redocly docs using redocly                      `make redocly-build`
+redocly-generate-ignore   generate (or update) an ignores file using redocly    `make redocly-generate-ignore`
+help                      display a list of Make Targets                        `make help`
+_listincludes             list all included Makefiles and *.mk files            `make _listincludes`
+_selfcheck                lint Makefile                                         `make _selfcheck`
+lint-vale                 lint prose using vale                                 `make lint-vale`
+vale-sync                 sync Vale dependencies                                `make vale-sync`
 ```
 
 ## Contributors
