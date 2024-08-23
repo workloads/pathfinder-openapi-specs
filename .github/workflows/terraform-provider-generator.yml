@@ -8,7 +8,7 @@ on:  # yamllint disable-line rule:truthy
 #      - main
 
 env:
-  CACHE_KEY: "${{ github.repository }}-${{ github.ref }}-go"
+  CACHE_KEY: "${{ github.repository }}-${{ github.ref }}-${{ github.workflow }}"
   CACHE_PATHS: |
     ~/.cache/go-build
     /go/bin
@@ -72,6 +72,10 @@ jobs:
           go \
             install \
               "${{ matrix.tools }}"
+
+      - name: Which `tfplugingen-openapi`
+        run: |
+          which tfplugingen-openapi
 
       - name: Print `tfplugingen-openapi` version
         run: |
