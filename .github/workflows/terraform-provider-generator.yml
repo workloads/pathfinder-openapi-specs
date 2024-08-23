@@ -8,6 +8,11 @@ on:  # yamllint disable-line rule:truthy
 #      - main
 
 env:
+  CACHE_KEY: "${{ github.repository }}-${{ github.ref }}-go"
+  CACHE_PATHS: |
+    ~/.cache/go-build
+    /go/bin
+
   GO_VERSION: 1.23
 
   FRAMEWORK_GENERATOR_REPOSITORY: "github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework"
@@ -44,6 +49,20 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
           cache: true
 
+      # see https://github.com/actions/cache
+      - name: Restore Cache
+        uses: actions/cache@v4
+        with:
+          key: "${{ env.CACHE_KEY }}"
+          path: ${{ env.CACHE_PATHS }}
+
+      # see https://github.com/actions/cache
+      - name: Populate Cache
+        uses: actions/cache@v4
+        with:
+          key: "${{ env.CACHE_KEY }}"
+          path: ${{ env.CACHE_PATHS }}
+
       - name: Install `tfplugingen-openapi@${{ env.OPENAPI_GENERATOR_VERSION }}`
         run: |
           go \
@@ -66,7 +85,6 @@ jobs:
           tfplugingen-framework \
             --version
 
-
   generate-config:
     # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
     concurrency:
@@ -79,6 +97,13 @@ jobs:
     timeout-minutes: 5
 
     steps:
+      # see https://github.com/actions/cache
+      - name: Restore existing cache
+        uses: actions/cache@v4
+        with:
+          key: "${{ env.CACHE_KEY }}"
+          path: ${{ env.CACHE_PATHS }}
+
       - name: Print `tfplugingen-openapi` version
         run: |
           tfplugingen-openapi \
