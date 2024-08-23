@@ -51,35 +51,7 @@ components:
               type: number
               example: 400
 
-    BatteryItem:
-      description: Structure of a single battery item
-      properties:
-        unit:
-          description: Unit of the battery item
-          examples:
-            - mA  # milli ampere
-            - mV  # milli volt
-            - V   # volt
-          type: string
-        value:
-          description: Value of the battery item
-          examples:
-            - 1
-            - 2
-          type: integer
-      required:
-        - unit
-        - value
-      type: object
-
-    BatteryResponse:
-      description: Response containing the battery status
-      items:
-        $ref: '#/components/schemas/BatteryItem'
-      maxItems: 4
-      type: array
-
-    DeviceResponse:
+    Device:
       description: Response containing the device status
       properties:
         features:
@@ -143,18 +115,104 @@ components:
         - versions
       type: object
 
-    DeviceRebootResponse:
+    DeviceBattery:
+      description: Response containing the battery status
+      items:
+        $ref: '#/components/schemas/DeviceBatteryItem'
+      maxItems: 4
+      type: array
+
+    DeviceBatteryItem:
+      description: Structure of a single battery item
+      properties:
+        unit:
+          description: Unit of the battery item
+          examples:
+            - mA  # milli ampere
+            - mV  # milli volt
+            - V   # volt
+          type: string
+        value:
+          description: Value of the battery item
+          examples:
+            - 1
+            - 2
+          type: integer
+      required:
+        - unit
+        - value
+      type: object
+
+    DeviceReboot:
       description: Response containing the reboot status
       properties:
-        rebooting:
+        reboot:
           description: Reboot status
           examples:
-            - false
             - true
           type: boolean
       required:
-        - rebooting
+        - reboot
       type: object
+
+    DeviceWifi:
+      description: Response containing the Wi-Fi network
+      items:
+        $ref: '#/components/schemas/DeviceWifiNetworkItem'
+      type: array
+      maximum: 1
+      minimum: 1
+
+    DeviceWifiRequest:
+      description: Request containing a Wi-Fi network configuration
+      properties:
+        password:
+          description: Password
+          examples:
+            - workloads
+          type: string
+        ssid:
+          description: SSID
+          examples:
+            - workloads
+          type: string
+      required:
+        - password
+        - ssid
+      type: object
+
+    DeviceWifiNetworkItem:
+      description: Structure of a single Wi-Fi network item
+      properties:
+        encrypted:
+          description: Encryption status
+          examples:
+            - true
+          type: boolean
+        rssi:
+          description: RSSI (in dBm)
+          examples:
+            - -30  # great signal
+            - -67  # okay signal
+            - -90  # unusable signal
+          format: float
+          type: number
+        ssid:
+          description: SSID
+          examples:
+            - workloads
+          type: string
+      required:
+        - encrypted
+        - rssi
+        - ssid
+      type: object
+
+    DeviceWifiScan:
+      description: Response containing the detected Wi-Fi networks
+      items:
+        $ref: '#/components/schemas/DeviceWifiNetworkItem'
+      type: array
 
     ErrorMessage:
       description: Response containing the error message
@@ -192,13 +250,12 @@ components:
               type: number
               example: 403
 
-    HealthzResponse:
+    Healthz:
       description: Response containing the health status
       properties:
         ready:
           description: Health status
           examples:
-            - false
             - true
           type: boolean
       required:
@@ -217,13 +274,12 @@ components:
               type: number
               example: 500
 
-    MovementLockResponse:
+    MovementLock:
       description: Response containing the movement lock status
       properties:
         locked:
           description: Movement lock status
           examples:
-            - false
             - true
           type: boolean
       required:
@@ -241,9 +297,7 @@ components:
         angle:
           description: Angle (in degrees) of movement
           examples:
-            - 0
             - 90
-            - -180
           maximum: 360
           minimum: -360
           type: integer
@@ -253,15 +307,12 @@ components:
             - backward
             - forward
           examples:
-            - backward
             - forward
           type: string
         distance:
           description: Distance (in centimeters) of movement
           examples:
-            - 1
             - 10
-            - 100
           maximum: 100
           minimum: 1
           type: number
@@ -283,7 +334,6 @@ components:
         persist:
           description: Persist the movement plan to the filesystem
           examples:
-            - false
             - true
           type: boolean
         steps:
@@ -302,14 +352,20 @@ components:
     MovementResponse:
       description: Response containing the movement operation status
       properties:
-        moving:
-          description: Movement operations status
+        id:
+          description: Identifier of the movement plan
           examples:
-            - false
-            - true
-          type: boolean
+            - movement-1ab2
+          type: string
+        name:
+          description: Name of the movement plan
+          examples:
+            - Movement Plan
+            - movement-plan
+          type: string
       required:
-        - moving
+        - id
+        - name
       type: object
 
     NotFoundError:
@@ -324,13 +380,12 @@ components:
               type: number
               example: 400
 
-    ReadyzResponse:
+    Readyz:
       description: Response containing the readiness status
       properties:
         ready:
           description: Readiness status
           examples:
-            - false
             - true
           type: boolean
       required:
@@ -349,48 +404,6 @@ components:
               type: number
               example: 401
 
-    WifiConnectionResponse:
-      description: Response containing the Wi-Fi network
-      items:
-        $ref: '#/components/schemas/WifiNetworkItem'
-      type: array
-      maximum: 1
-      minimum: 1
-
-    WifiNetworkItem:
-      description: Structure of a single Wi-Fi network item
-      properties:
-        encrypted:
-          description: Encryption status
-          examples:
-            - false
-            - true
-          type: boolean
-        rssi:
-          description: RSSI (in dBm)
-          examples:
-            - -30  # great signal
-            - -67  # okay signal
-            - -90  # unusable signal
-          format: float
-          type: number
-        ssid:
-          description: SSID
-          examples:
-            - workloads
-          type: string
-      required:
-        - encrypted
-        - rssi
-        - ssid
-      type: object
-
-    WifiNetworksResponse:
-      description: Response containing the detected Wi-Fi networks
-      items:
-        $ref: '#/components/schemas/WifiNetworkItem'
-      type: array
-
   # see https://swagger.io/specification/#responses-object
   responses:
     BadRequestError:
@@ -404,8 +417,36 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DeviceResponse'
+            $ref: '#/components/schemas/Device'
       description: Response containing the device status
+
+    DeviceBattery:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeviceBattery'
+      description: Response containing the battery status
+
+    DeviceReboot:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeviceReboot'
+      description: Response containing the reboot status
+
+    DeviceWifi:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeviceWifi'
+      description: Response containing the Wi-Fi status
+
+    DeviceWifiScan:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeviceWifiScan'
+      description: Response containing the available Wi-Fi networks
 
     ForbiddenError:
       content:
@@ -418,7 +459,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/HealthzResponse'
+            $ref: '#/components/schemas/Healthz'
       description: Response containing the health status
 
     InternalServerError:
@@ -426,6 +467,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/InternalServerError'
+      description: Response containing the error message
+
+    Movement:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MovementResponse'
+      description: Response containing the error message
+
+    MovementLock:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MovementLock'
       description: Response containing the error message
 
     NotFoundError:
@@ -446,7 +501,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ReadyzResponse'
+            $ref: '#/components/schemas/Readyz'
       description: Response containing the ready status
 
   # see https://swagger.io/specification/#security-scheme-object
@@ -495,11 +550,7 @@ paths:
       operationId: getDeviceBattery
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BatteryResponse'
-          description: Response containing the battery status
+          $ref: '#/components/responses/DeviceBattery'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':
@@ -516,13 +567,15 @@ paths:
     post:
       description: Initiate a reboot
       operationId: postDeviceReboot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/DeviceReboot'
       responses:
         '200':
-          description: Response containing the reboot status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeviceRebootResponse'
+          $ref: '#/components/responses/DeviceReboot'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '401':
@@ -541,11 +594,7 @@ paths:
       operationId: getDeviceWifi
       responses:
         '200':
-          description: Response containing the Wi-Fi status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WifiNetworksResponse'
+          $ref: '#/components/responses/DeviceWifi'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':
@@ -563,15 +612,17 @@ paths:
       operationId: postDeviceWifiChange
       responses:
         '200':
-          description: Response containing the detected Wi-Fi networks
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WifiConnectionResponse'
+          $ref: '#/components/responses/DeviceWifi'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/DeviceWifiRequest'
       security: []
       summary: Update Wi-Fi configuration
       tags:
@@ -583,11 +634,7 @@ paths:
       operationId: getDeviceWifiScan
       responses:
         '200':
-          description: Response containing the detected Wi-Fi networks
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WifiNetworksResponse'
+          $ref: '#/components/responses/DeviceWifiScan'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':
@@ -623,15 +670,17 @@ paths:
       operationId: deleteMovement
       responses:
         '200':
-          description: Response containing the movement status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MovementResponse'
+          $ref: '#/components/responses/Movement'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/MovementDelete'
       security: []
       summary: Stop movement
       tags:
@@ -645,11 +694,7 @@ paths:
       operationId: getMovement
       responses:
         '200':
-          description: Response containing the movement status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MovementResponse'
+          $ref: '#/components/responses/Movement'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '404':
@@ -670,17 +715,19 @@ paths:
       operationId: postMovement
       responses:
         '200':
-          description: Response containing the status of the movement request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MovementRequest'
+          $ref: '#/components/responses/Movement'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '403':
           $ref: '#/components/responses/ForbiddenError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/MovementRequest'
       security: []
       summary: Initiate movement
       tags:
@@ -695,15 +742,17 @@ paths:
       operationId: deleteMovementLock
       responses:
         '200':
-          description: Response containing the movement lock status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MovementLockResponse'
+          $ref: '#/components/responses/MovementLock'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/MovementLock'
       security:
         - x-pathfinder-auth-elevated: []
       summary: Allow movements
@@ -715,15 +764,17 @@ paths:
       operationId: postMovementLock
       responses:
         '200':
-          description: Response containing the movement lock status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MovementLockResponse'
+          $ref: '#/components/responses/MovementLock'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/MovementLock'
       security: []
       summary: Disallow movements
       tags:
@@ -734,11 +785,7 @@ paths:
       operationId: getMovementLockStatus
       responses:
         '200':
-          description: Response containing the movement lock status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MovementLockResponse'
+          $ref: '#/components/responses/MovementLock'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':
