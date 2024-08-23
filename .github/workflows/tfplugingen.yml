@@ -1,0 +1,85 @@
+---
+
+name: "Terraform: Provider Generator"
+
+on:  # yamllint disable-line rule:truthy
+  push:
+#    branches:
+#      - main
+
+env:
+  GO_VERSION: 1.23
+
+  FRAMEWORK_GENERATOR_REPOSITORY: "github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework"
+  FRAMEWORK_GENERATOR_VERSION: latest
+
+  OPENAPI_GENERATOR_CONFIG: generator_config.yml
+  OPENAPI_GENERATOR_INPUT: openapi.yml
+  OPENAPI_GENERATOR_OUTPUT: provider_code_spec.json
+  OPENAPI_GENERATOR_REPOSITORY: "github.com/hashicorp/terraform-plugin-codegen-openapi/cmd/tfplugingen-openapi"
+  OPENAPI_GENERATOR_VERSION: latest
+
+jobs:
+  install-binaries:
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}"
+      cancel-in-progress: false
+
+    name: install-binaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      # see https://github.com/marketplace/actions/checkout
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # see https://github.com/marketplace/actions/setup-go-environment
+      - name: Setup Go `v${{ env.GO_VERSION }}`
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Install `tfplugingen-openapi@${{ env.OPENAPI_GENERATOR_VERSION }}`
+        run: |
+          go \
+            install \
+              "${{ env.OPENAPI_GENERATOR_REPOSITORY }}@${{ env.OPENAPI_GENERATOR_VERSION }}"
+
+      - name: Print `tfplugingen-openapi` version
+        run: |
+          tfplugingen-openapi \
+            --version
+
+      - name: Install `tfplugingen-codegen-framework@${{ env.FRAMEWORK_GENERATOR_VERSION }}`
+        run: |
+          go \
+            install \
+              "${{ env.FRAMEWORK_GENERATOR_REPOSITORY }}@${{ env.FRAMEWORK_GENERATOR_VERSION }}"
+
+      - name: Print `tfplugingen-framework` version
+        run: |
+          tfplugingen-framework \
+            --version
+
+
+  generate-config:
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}"
+      cancel-in-progress: false
+
+    name: generate-config
+    needs: install-binaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Print `tfplugingen-openapi` version
+        run: |
+          tfplugingen-openapi \
+            --version
