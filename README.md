@@ -1,11 +1,11 @@
-# 🧭  Pathfinder OpenAPI Specifications
+# Pathfinder OpenAPI Specifications
 
 > OpenAPI Specifications for the Pathfinder platform
 
 ## Table of Contents
 
 <!-- TOC -->
-* [🧭  Pathfinder OpenAPI Specifications](#-pathfinder-openapi-specifications)
+* [Pathfinder OpenAPI Specifications](#pathfinder-openapi-specifications)
   * [Table of Contents](#table-of-contents)
   * [Requirements](#requirements)
       * [Development](#development)

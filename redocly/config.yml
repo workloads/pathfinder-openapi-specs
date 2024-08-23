@@ -50,7 +50,7 @@ rules:
   # see https://redocly.com/docs/cli/rules/no-server-example-com
   no-server-example.com: error
 
-  # server variablesm must be defined
+  # server variables must be defined
   no-undefined-server-variable: error
 
   # refs must not be unresolved
@@ -74,7 +74,7 @@ rules:
   # operations must have a tag
   operation-tag-defined: error
 
-  # reqyests must have one of the allowed MIME types
+  # requests must have one of the allowed MIME types
   request-mime-type:
     severity: error
     allowedValues:

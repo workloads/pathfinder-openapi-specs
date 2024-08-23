@@ -21,7 +21,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
+          # Super-Linter needs full git history
           fetch-depth: 0
 
       - name: Lint Code with Super-Linter

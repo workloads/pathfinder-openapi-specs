@@ -55,7 +55,7 @@ The `direction` value represents the direction of the next movement.
 
 The `distance` value represents the distance of the next movement.
 
-* This [MOVEMENT_PLAN.md](../../../untitled%20folder/movement-plan/MOVEMENT_PLAN.md)value is expressed in centimeters.
+* This value is expressed in centimeters.
 * The acceptable range for this value is `>= 1` and `<= 100`.
 
 ## Track Map
@@ -79,11 +79,7 @@ The full movement plan consists of 34 steps and runs counter-clockwise.
 
 This section provides an example of a movement plan that represents 10 of the 34 steps in the track map.
 
-## Example Movement Plan
-
-This section provides an example of a movement plan that represents 10 of the 34 steps in the track map.
-
-### Step 1
+**Step 1**
 
 * angle: `0`
 * direction: `forward`
@@ -97,7 +93,7 @@ step {
 }
 ```
 
-### Step 2
+**Step 2**
 
 * angle: `-25`
 * direction: `forward`
@@ -111,7 +107,7 @@ step {
 }
 ```
 
-### Step 3
+**Step 3**
 
 * angle: `-20`
 * direction: `forward`

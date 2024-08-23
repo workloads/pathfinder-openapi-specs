@@ -45,8 +45,8 @@ components:
         unit:
           description: Unit of the battery item
           examples:
-            - mA  # milliampere
-            - mV  # millivolt
+            - mA  # milli ampere
+            - mV  # milli volt
             - V   # volt
           type: string
         value:
