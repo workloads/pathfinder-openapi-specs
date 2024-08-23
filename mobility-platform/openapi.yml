@@ -569,7 +569,6 @@ paths:
       summary: Retrieve health status
       tags:
         - health
-        - terraform-enabled
       x-terraform-types:
         - datasource
 
@@ -730,7 +729,6 @@ paths:
       summary: Retrieve readiness status
       tags:
         - health
-        - terraform-enabled
       x-terraform-types:
         - datasource
 
