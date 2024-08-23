@@ -305,7 +305,7 @@ components:
       # see https://swagger.io/specification/#external-documentation-object
       externalDocs:
         description: Documentation on the Schema of a Movement Plans
-        url: 'https://github.com/workloads/pathfinder-openapi-specs/blob/main/movement-plan/MOVEMENT_PLAN.md'
+        url: 'https://github.com/workloads/pathfinder-openapi-specs/blob/main/movement-plan/README.md'
       properties:
         angle:
           description: Angle (in degrees) of movement

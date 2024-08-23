@@ -1,0 +1,59 @@
+---
+
+name: "Redocly: Documentation"
+
+on:  # yamllint disable-line rule:truthy
+  push:
+
+jobs:
+  github-pages:
+    name: GitHub Pages
+
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}-pages"
+      cancel-in-progress: true
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
+      matrix:
+        # TODO: make this a more global setting
+        targets:
+          - "./mobility-platform"
+
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # see https://github.com/marketplace/actions/redocly-cli-github-action
+      - name: Build Redocly Docs
+        uses: fluximus-prime/redocly-cli-github-action@v1
+        with:
+          args: "build-docs --config='redocly/config.yml' --disableGoogleFont --output='dist/' '${{ matrix.targets }}/openapi.yml'"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
