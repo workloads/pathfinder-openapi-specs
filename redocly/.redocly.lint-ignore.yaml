@@ -1,6 +1,6 @@
 ---
 
-mobility-platform/openapi.yml:
+../mobility-platform/openapi.yml:
   spec:
     # TODO: understand why the schema is considered invalid in redocly only
     - '#/components/responses/Device/content'

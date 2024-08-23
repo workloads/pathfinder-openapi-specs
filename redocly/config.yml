@@ -4,12 +4,20 @@
 # see https://redocly.com/docs/cli/configuration/reference/apis#api-object
 apis:
   mobility-platform@v1:
-    root: ./mobility-platform/openapi.yml
+    root: ../mobility-platform/openapi.yml
 
-# see https://redocly.com/docs/cli/rules/recommended#recommended-strict-ruleset
-# and https://redocly.com/docs/cli/configuration/reference/extends
+# see https://redocly.com/docs/cli/configuration/reference/decorators
+decorators:
+  tfplugingen-openapi-decorator/prepare-config: on  # yamllint disable-line rule:truthy
+
+# see https://redocly.com/docs/cli/configuration/reference/extends
 extends:
+  # see https://redocly.com/docs/cli/rules/recommended#recommended-strict-ruleset
   - recommended-strict
+
+# see https://redocly.com/docs/cli/configuration/reference/plugins
+plugins:
+  - "./plugins/decorator-tfplugingen.js"
 
 # see https://redocly.com/docs/cli/configuration/reference/rules
 rules:
