@@ -28,7 +28,6 @@ jobs:
 
     name: install-binaries
     runs-on: ubuntu-latest
-    timeout-minutes: 5
 
     strategy:
       # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
@@ -37,6 +36,8 @@ jobs:
         tools:
           - "github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework@latest"
           - "github.com/hashicorp/terraform-plugin-codegen-openapi/cmd/tfplugingen-openapi@latest"
+
+    timeout-minutes: 5
 
     steps:
       # see https://github.com/marketplace/actions/checkout
@@ -91,7 +92,6 @@ jobs:
     name: generate-provider
     needs: install-binaries
     runs-on: ubuntu-latest
-    timeout-minutes: 5
 
     strategy:
       # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
@@ -99,7 +99,9 @@ jobs:
       matrix:
         # TODO: make this a more global setting
         targets:
-          - mobility-platform
+          - "./mobility-platform"
+
+    timeout-minutes: 5
 
     steps:
       # see https://github.com/actions/cache
@@ -126,8 +128,13 @@ jobs:
 
     name: commit-changes
     needs: generate-provider
+
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+    permissions:
+      # needed for `git-auto-commit-action` to be able to make changes to the generated output file
+      contents: write
+
     runs-on: ubuntu-latest
-    timeout-minutes: 5
 
     strategy:
       # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
@@ -135,7 +142,9 @@ jobs:
       matrix:
         # TODO: make this a more global setting
         targets:
-          - mobility-platform
+          - "./mobility-platform"
+
+    timeout-minutes: 5
 
     steps:
       - name: Add updated Output to Repository
