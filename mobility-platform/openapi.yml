@@ -417,7 +417,7 @@ externalDocs:
 
 # see https://swagger.io/specification/#paths-object
 paths:
-  '/v1/device':
+  /v1/device:
     get:
       description: Retrieve the device status
       operationId: getDeviceInformation
@@ -440,7 +440,7 @@ paths:
       x-terraform-types:
         - datasource
 
-  '/v1/device/battery':
+  /v1/device/battery:
     get:
       description: Retrieve the battery status
       operationId: getDeviceBattery
@@ -463,7 +463,7 @@ paths:
       x-terraform-types:
         - datasource
 
-  '/v1/device/reboot':
+  /v1/device/reboot:
     post:
       description: Initiate a reboot
       operationId: postDeviceReboot
@@ -486,7 +486,7 @@ paths:
       tags:
         - device
 
-  '/v1/device/wifi':
+  /v1/device/wifi:
     get:
       description: Retrieve the Wi-Fi status
       operationId: getDeviceWifi
@@ -528,7 +528,7 @@ paths:
       tags:
         - device-wifi
 
-  '/v1/device/wifi/scan':
+  /v1/device/wifi/scan:
     get:
       description: Initiate a Wi-Fi scan
       operationId: getDeviceWifiScan
@@ -550,7 +550,7 @@ paths:
       x-terraform-types:
         - datasource
 
-  '/v1/healthz':
+  /v1/healthz:
     get:
       description: Retrieve the health status
       operationId: getHealthz
@@ -572,7 +572,7 @@ paths:
       x-terraform-types:
         - datasource
 
-  '/v1/movement':
+  /v1/movement:
     delete:
       description: Stop a movement
       operationId: deleteMovement
@@ -648,7 +648,7 @@ paths:
       x-terraform-types:
         - resource
 
-  '/v1/movement/lock':
+  /v1/movement/lock:
     delete:
       description: Allow movements
       operationId: deleteMovementLock
@@ -710,7 +710,7 @@ paths:
       x-terraform-types:
         - datasource
 
-  '/v1/readyz':
+  /v1/readyz:
     get:
       description: Retrieve the readiness status
       operationId: getReadyz
