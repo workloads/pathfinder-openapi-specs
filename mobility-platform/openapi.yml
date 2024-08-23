@@ -33,6 +33,8 @@ info:
     backgroundColor: '#282433'
     altText: Pathfinder logo
 
+  x-terraform-provider-name: pathfinder
+
 # see https://swagger.io/specification/#components-object
 components:
   # see https://swagger.io/specification/#schema-object
