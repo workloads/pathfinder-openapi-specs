@@ -134,6 +134,9 @@ components:
       properties:
         rebooting:
           description: Reboot status
+          examples:
+            - false
+            - true
           type: boolean
       required:
         - rebooting
@@ -145,19 +148,27 @@ components:
         message:
           description: Error message
           examples:
-            - Bad Request            # 400
-            - Unauthorized           # 401
-            - Forbidden              # 403
-            - Not Found              # 404
-            - Internal Server Error  # 500
+            - Bad Request
+            - Unauthorized
+            - Forbidden
+            - Not Found
+            - Internal Server Error
           type: string
         status:
           description: HTTP status code
           enum:
+            - 400  # Bad Request
+            - 401  # Unauthorized
+            - 403  # Forbidden
+            - 404  # Not Found
+            - 405  # Method Not Allowed
+            - 406  # Not Acceptable
+            - 409  # Conflict
+            - 500  # Internal Server Error
+            - 501  # Not Implemented
+            - 503  # Service Unavailable
+          examples:
             - 400
-            - 401
-            - 403
-            - 404
             - 500
           type: number
       required:
@@ -174,6 +185,9 @@ components:
       properties:
         ready:
           description: Health status
+          examples:
+            - false
+            - true
           type: boolean
       required:
         - ready
@@ -184,6 +198,9 @@ components:
       properties:
         locked:
           description: Movement lock status
+          examples:
+            - false
+            - true
           type: boolean
       required:
         - locked
@@ -211,6 +228,9 @@ components:
           enum:
             - backward
             - forward
+          examples:
+            - backward
+            - forward
           type: string
         distance:
           description: Distance (in centimeters) of movement
@@ -232,9 +252,15 @@ components:
       properties:
         name:
           description: Name of the movement plan
+          examples:
+            - Movement Plan
+            - movement-plan
           type: string
         persist:
           description: Persist the movement plan to the filesystem
+          examples:
+            - false
+            - true
           type: boolean
         steps:
           description: List of movement steps
@@ -254,6 +280,9 @@ components:
       properties:
         moving:
           description: Movement operations status
+          examples:
+            - false
+            - true
           type: boolean
       required:
         - moving
@@ -264,6 +293,9 @@ components:
       properties:
         ready:
           description: Readiness status
+          examples:
+            - false
+            - true
           type: boolean
       required:
         - ready
@@ -282,6 +314,9 @@ components:
       properties:
         encrypted:
           description: Encryption status
+          examples:
+            - false
+            - true
           type: boolean
         rssi:
           description: RSSI (in dBm)
@@ -316,6 +351,13 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
       description: Response containing the error message for a bad request
+
+    Device:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeviceResponse'
+      description: Response containing the device status
 
     Forbidden:
       content:
@@ -383,7 +425,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeviceResponse'
+                $ref: '#/components/responses/Device'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
