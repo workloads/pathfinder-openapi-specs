@@ -8,10 +8,11 @@ on:  # yamllint disable-line rule:truthy
 #      - main
 
 env:
-  CACHE_KEY: "${{ github.repository }}-${{ github.ref }}-${{ github.workflow }}"
+  CACHE_KEY: "${{ github.repository }}-${{ github.ref }}"
   CACHE_PATHS: |
     ~/.cache/go-build
     /go/bin
+    /home/runner/go/bin/
 
   GO_VERSION: 1.23
 
