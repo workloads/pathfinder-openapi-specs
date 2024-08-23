@@ -2,9 +2,8 @@
 
 extends: default
 
-yaml-files:
-  - '*.yml'
-  - '*.yaml'
+ignore:
+  - 'dist'
 
 rules:
   # see https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.line_length
@@ -18,3 +17,7 @@ rules:
       'false'
     ]
     check-keys: true
+
+yaml-files:
+  - '*.yml'
+  - '*.yaml'
