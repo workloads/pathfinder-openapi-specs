@@ -15,14 +15,9 @@ env:
 
   GO_VERSION: 1.23
 
-  FRAMEWORK_GENERATOR_REPOSITORY: "github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework"
-  FRAMEWORK_GENERATOR_VERSION: latest
-
   OPENAPI_GENERATOR_CONFIG: generator_config.yml
   OPENAPI_GENERATOR_INPUT: openapi.yml
   OPENAPI_GENERATOR_OUTPUT: provider_code_spec.json
-  OPENAPI_GENERATOR_REPOSITORY: "github.com/hashicorp/terraform-plugin-codegen-openapi/cmd/tfplugingen-openapi"
-  OPENAPI_GENERATOR_VERSION: latest
 
 jobs:
   install-binaries:
@@ -34,6 +29,14 @@ jobs:
     name: install-binaries
     runs-on: ubuntu-latest
     timeout-minutes: 5
+
+    strategy:
+      # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
+      matrix:
+        tools:
+          - "github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework@latest"
+          - "github.com/hashicorp/terraform-plugin-codegen-openapi/cmd/tfplugingen-openapi@latest"
 
     steps:
       # see https://github.com/marketplace/actions/checkout
@@ -63,38 +66,40 @@ jobs:
           key: "${{ env.CACHE_KEY }}"
           path: ${{ env.CACHE_PATHS }}
 
-      - name: Install `tfplugingen-openapi@${{ env.OPENAPI_GENERATOR_VERSION }}`
+      - name: Install `${{ matrix.tools }}`
         run: |
           go \
             install \
-              "${{ env.OPENAPI_GENERATOR_REPOSITORY }}@${{ env.OPENAPI_GENERATOR_VERSION }}"
+              "${{ matrix.tools }}"
 
       - name: Print `tfplugingen-openapi` version
         run: |
           tfplugingen-openapi \
             --version
 
-      - name: Install `tfplugingen-codegen-framework@${{ env.FRAMEWORK_GENERATOR_VERSION }}`
-        run: |
-          go \
-            install \
-              "${{ env.FRAMEWORK_GENERATOR_REPOSITORY }}@${{ env.FRAMEWORK_GENERATOR_VERSION }}"
-
       - name: Print `tfplugingen-framework` version
         run: |
           tfplugingen-framework \
             --version
 
-  generate-config:
+  generate-provider:
     # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
     concurrency:
       group: "${{ github.workflow }}-${{ github.ref }}"
       cancel-in-progress: false
 
-    name: generate-config
+    name: generate-provider
     needs: install-binaries
     runs-on: ubuntu-latest
     timeout-minutes: 5
+
+    strategy:
+      # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
+      matrix:
+        # TODO: make this a more global setting
+        targets:
+          - mobility-platform
 
     steps:
       # see https://github.com/actions/cache
@@ -104,7 +109,57 @@ jobs:
           key: "${{ env.CACHE_KEY }}"
           path: ${{ env.CACHE_PATHS }}
 
-      - name: Print `tfplugingen-openapi` version
+      # TODO:
+      - name: Render Terraform Provider spec with `tfplugingen-openapi`
         run: |
-          tfplugingen-openapi \
-            --version
+          echo tfplugingen-openapi \
+            generate \
+              --config "${{ matrix.targets }}${{ env.OPENAPI_GENERATOR_CONFIG }}" \
+              --output "${{ matrix.targets }}${{ env.OPENAPI_GENERATOR_OUTPUT }}" \
+              "${{ matrix.targets }}${{ env.OPENAPI_GENERATOR_INPUT }}"
+
+  commit-changes:
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}"
+      cancel-in-progress: false
+
+    name: commit-changes
+    needs: generate-provider
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    strategy:
+      # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
+      matrix:
+        # TODO: make this a more global setting
+        targets:
+          - mobility-platform
+
+    steps:
+      - name: Add updated Output to Repository
+        run: |
+         echo "Add updated Output to Repository"
+
+#      # see https://github.com/marketplace/actions/git-auto-commit
+#      - name: Add updated Output to Repository
+#        uses: stefanzweifel/git-auto-commit-action@v5
+#        with:
+#          commit_author: "GitHub Actions <github-actions[bot]@users.noreply.github.com>"
+#          commit_message: automated update of rendered provider specification
+#          commit_options: "--no-verify --signoff"
+#          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+#          commit_user_name: "github-actions[bot]"
+#
+#          create_branch: true
+#
+#          disable_globbing: true
+#
+#          file_pattern: "${{ env.OPENAPI_GENERATOR_OUTPUT }}"
+#          repository: .
+#          status_options: "--untracked-files=normal"
+#
+#          skip_dirty_check: false
+#          skip_fetch: false
+#          skip_checkout: true
