@@ -1,0 +1,48 @@
+---
+
+name: "Redocly: Documentation on GH Pages"
+
+on:  # yamllint disable-line rule:truthy
+  push:
+
+jobs:
+  github-pages:
+    name: GitHub Pages
+
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}-pages"
+      cancel-in-progress: true
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
+      matrix:
+        # TODO: make this a more global setting
+        targets:
+          - "./mobility-platform"
+
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # see https://github.com/marketplace/actions/redocly-cli-github-action
+      - name: Build Redocly Docs
+        uses: fluximus-prime/redocly-cli-github-action@v1
+        with:
+          args: "build-docs ${{ matrix.targets }}/openapi.yml"
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
