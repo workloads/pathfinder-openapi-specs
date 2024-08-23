@@ -23,7 +23,7 @@ info:
     name: Apache License 2.0
     identifier: Apache-2.0
 
-  summary: Pathfinder Mobility Platform
+  summary: Pathfinder - Mobility Platform
 
   termsOfService: 'https://github.com/workloads/.github/blob/main/CONTRIBUTING.md'
 
@@ -39,6 +39,18 @@ info:
 components:
   # see https://swagger.io/specification/#schema-object
   schemas:
+    BadRequestError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            message:
+              type: string
+              example: Bad Request
+            status:
+              type: number
+              example: 400
+
     BatteryItem:
       description: Structure of a single battery item
       properties:
@@ -144,31 +156,17 @@ components:
         - rebooting
       type: object
 
-    ErrorResponse:
+    ErrorMessage:
       description: Response containing the error message
       properties:
         message:
           description: Error message
           examples:
             - Bad Request
-            - Unauthorized
-            - Forbidden
-            - Not Found
             - Internal Server Error
           type: string
         status:
           description: HTTP status code
-          enum:
-            - 400  # Bad Request
-            - 401  # Unauthorized
-            - 403  # Forbidden
-            - 404  # Not Found
-            - 405  # Method Not Allowed
-            - 406  # Not Acceptable
-            - 409  # Conflict
-            - 500  # Internal Server Error
-            - 501  # Not Implemented
-            - 503  # Service Unavailable
           examples:
             - 400
             - 500
@@ -182,6 +180,18 @@ components:
       description: Structure of a single feature flag item
       type: boolean
 
+    ForbiddenError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            message:
+              type: string
+              example: Forbidden
+            status:
+              type: number
+              example: 403
+
     HealthzResponse:
       description: Response containing the health status
       properties:
@@ -194,6 +204,18 @@ components:
       required:
         - ready
       type: object
+
+    InternalServerError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            message:
+              type: string
+              example: Internal Server Error
+            status:
+              type: number
+              example: 500
 
     MovementLockResponse:
       description: Response containing the movement lock status
@@ -290,6 +312,18 @@ components:
         - moving
       type: object
 
+    NotFoundError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            message:
+              type: string
+              example: Not Found
+            status:
+              type: number
+              example: 400
+
     ReadyzResponse:
       description: Response containing the readiness status
       properties:
@@ -302,6 +336,18 @@ components:
       required:
         - ready
       type: object
+
+    UnauthorizedError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            message:
+              type: string
+              example: Unauthorized
+            status:
+              type: number
+              example: 401
 
     WifiConnectionResponse:
       description: Response containing the Wi-Fi network
@@ -347,12 +393,12 @@ components:
 
   # see https://swagger.io/specification/#responses-object
   responses:
-    BadRequest:
+    BadRequestError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
-      description: Response containing the error message for a bad request
+            $ref: '#/components/schemas/BadRequestError'
+      description: Response containing the error message
 
     Device:
       content:
@@ -361,12 +407,12 @@ components:
             $ref: '#/components/schemas/DeviceResponse'
       description: Response containing the device status
 
-    Forbidden:
+    ForbiddenError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
-      description: Response containing the error message for a forbidden request
+            $ref: '#/components/schemas/ForbiddenError'
+      description: Response containing the error message
 
     Healthz:
       content:
@@ -379,15 +425,22 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
-      description: Response containing the error message for an internal server error
+            $ref: '#/components/schemas/InternalServerError'
+      description: Response containing the error message
 
-    Unauthorized:
+    NotFoundError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
-      description: Response containing the error message for an unauthorized request
+            $ref: '#/components/schemas/NotFoundError'
+      description: Response containing the error message
+
+    UnauthorizedError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnauthorizedError'
+      description: Response containing the error message
 
     Readyz:
       content:
@@ -425,7 +478,7 @@ paths:
         '200':
           $ref: '#/components/responses/Device'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -448,7 +501,7 @@ paths:
                 $ref: '#/components/schemas/BatteryResponse'
           description: Response containing the battery status
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -471,9 +524,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceRebootResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -494,7 +547,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/WifiNetworksResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -516,7 +569,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/WifiConnectionResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -536,7 +589,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/WifiNetworksResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -554,7 +607,7 @@ paths:
         '200':
           $ref: '#/components/responses/Healthz'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -576,7 +629,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MovementResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -598,13 +651,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/MovementResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '404':
-          description: Response containing the error message for a missing movement
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+          $ref: '#/components/responses/NotFoundError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -627,9 +676,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/MovementRequest'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '403':
-          $ref: '#/components/responses/Forbidden'
+          $ref: '#/components/responses/ForbiddenError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -652,7 +701,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MovementLockResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -672,7 +721,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MovementLockResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -691,7 +740,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MovementLockResponse'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
@@ -710,7 +759,7 @@ paths:
         '200':
           $ref: '#/components/responses/Readyz'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security: []
