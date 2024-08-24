@@ -18,6 +18,7 @@ extends:
 
 # see https://redocly.com/docs/cli/configuration/reference/plugins
 plugins:
+  - "../redocly-arduino-webserver-config/main.js"
   - "../redocly-tfplugingen-config/main.js"
 
 # see https://redocly.com/docs/cli/configuration/reference/rules
