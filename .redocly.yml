@@ -6,8 +6,13 @@ apis:
   mobility-platform@v1:
     # see https://redocly.com/docs/cli/configuration/reference/decorators
     decorators:
-      tfplugingen-config/remove-cruft: on  # yamllint disable-line rule:truthy
+      # Arduino-specific decorators
+      arduino-webserver-config/render-config: on  # yamllint disable-line rule:truthy
+      arduino-webserver-config/remove-cruft: on  # yamllint disable-line rule:truthy
+
+      # Terraform-specific decorators
       tfplugingen-config/render-config: on  # yamllint disable-line rule:truthy
+      tfplugingen-config/remove-cruft: on  # yamllint disable-line rule:truthy
 
     root: mobility-platform/openapi.yml
 
