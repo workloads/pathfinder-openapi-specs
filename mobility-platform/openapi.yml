@@ -565,10 +565,10 @@ paths:
         '200':
           $ref: '#/components/responses/DeviceBattery'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
-      security: []
+          $ref: '#/components/responses/ErrorInternalServerError'
+      security: [ ]
       summary: Retrieve battery status
       tags:
         - device
@@ -590,13 +590,13 @@ paths:
         '200':
           $ref: '#/components/responses/DeviceReboot'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '401':
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: '#/components/responses/ErrorUnauthorized'
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          $ref: '#/components/responses/ErrorInternalServerError'
       security:
-        - x-pathfinder-auth-elevated: []
+        - x-pathfinder-auth-elevated: [ ]
       summary: Initiate reboot
       tags:
         - device
@@ -609,10 +609,10 @@ paths:
         '200':
           $ref: '#/components/responses/DeviceWifi'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
-      security: []
+          $ref: '#/components/responses/ErrorInternalServerError'
+      security: [ ]
       summary: Retrieve Wi-Fi status
       tags:
         - device-wifi
@@ -627,16 +627,16 @@ paths:
         '200':
           $ref: '#/components/responses/DeviceWifi'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          $ref: '#/components/responses/ErrorInternalServerError'
       requestBody:
         content:
           application/json:
             schema:
               type: object
               $ref: '#/components/schemas/DeviceWifiRequest'
-      security: []
+      security: [ ]
       summary: Update Wi-Fi configuration
       tags:
         - device-wifi
@@ -649,10 +649,10 @@ paths:
         '200':
           $ref: '#/components/responses/DeviceWifiScan'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
-      security: []
+          $ref: '#/components/responses/ErrorInternalServerError'
+      security: [ ]
       summary: Initiate Wi-Fi scan
       tags:
         - device-wifi
@@ -667,10 +667,10 @@ paths:
         '200':
           $ref: '#/components/responses/Healthz'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
-      security: []
+          $ref: '#/components/responses/ErrorInternalServerError'
+      security: [ ]
       summary: Retrieve health status
       tags:
         - health
@@ -697,15 +697,15 @@ paths:
         '200':
           $ref: '#/components/responses/Movement'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          $ref: '#/components/responses/ErrorInternalServerError'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/MovementDelete'
-      security: []
+      security: [ ]
       summary: Stop movement
       tags:
         - movement
@@ -721,9 +721,9 @@ paths:
         '200':
           $ref: '#/components/responses/Movement'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '404':
-          $ref: '#/components/responses/NotFoundError'
+          $ref: '#/components/responses/ErrorNotFound'
         '500':
           $ref: '#/components/responses/ErrorInternalServerError'
       security: [ ]
