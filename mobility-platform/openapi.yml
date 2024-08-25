@@ -459,35 +459,35 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ErrorBadRequest'
-      description: Response containing the error message
+      description: Response containing the error object
 
     ErrorForbidden:
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ErrorForbidden'
-      description: Response containing the error message
+      description: Response containing the error object
 
     ErrorInternalServerError:
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ErrorInternalServerError'
-      description: Response containing the error message
+      description: Response containing the error object
 
     ErrorNotFound:
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ErrorNotFound'
-      description: Response containing the error message
+      description: Response containing the error object
 
     ErrorUnauthorized:
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ErrorUnauthorized'
-      description: Response containing the error message
+      description: Response containing the error object
 
     Healthz:
       content:
@@ -517,14 +517,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/MovementResponse'
-      description: Response containing the error message
+      description: Response containing the movement response object
 
     MovementLock:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/MovementLock'
-      description: Response containing the error message
+      description: Response containing the movement lock object
 
     Readyz:
       content:
