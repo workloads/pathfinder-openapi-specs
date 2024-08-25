@@ -725,8 +725,8 @@ paths:
         '404':
           $ref: '#/components/responses/NotFoundError'
         '500':
-          $ref: '#/components/responses/InternalServerError'
-      security: []
+          $ref: '#/components/responses/ErrorInternalServerError'
+      security: [ ]
       summary: Retrieve movement status
       tags:
         - movement
@@ -742,18 +742,18 @@ paths:
         '200':
           $ref: '#/components/responses/Movement'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '403':
-          $ref: '#/components/responses/ForbiddenError'
+          $ref: '#/components/responses/ErrorForbidden'
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          $ref: '#/components/responses/ErrorInternalServerError'
       requestBody:
         content:
           application/json:
             schema:
               type: object
               $ref: '#/components/schemas/MovementRequest'
-      security: []
+      security: [ ]
       summary: Initiate movement
       tags:
         - movement
@@ -769,9 +769,9 @@ paths:
         '200':
           $ref: '#/components/responses/MovementLock'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          $ref: '#/components/responses/ErrorInternalServerError'
       requestBody:
         content:
           application/json:
