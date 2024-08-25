@@ -489,18 +489,41 @@ components:
             $ref: '#/components/schemas/ErrorUnauthorized'
       description: Response containing the error message
 
-    NotFoundError:
+    Healthz:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/NotFoundError'
+            $ref: '#/components/schemas/Healthz'
+      description: Response containing the health status
+
+    InterfaceRoot:
+      content:
+        text/html:
+          schema:
+            type: string
+            example: "<html><body>Index</body></html>"
+      description: Response containing HTML
+
+    InterfaceApiRoot:
+      content:
+        text/html:
+          schema:
+            type: string
+            example: "<html><body>API Index</body></html>"
+      description: Response containing HTML
+
+    Movement:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MovementResponse'
       description: Response containing the error message
 
-    UnauthorizedError:
+    MovementLock:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UnauthorizedError'
+            $ref: '#/components/schemas/MovementLock'
       description: Response containing the error message
 
     Readyz:
