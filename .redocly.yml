@@ -84,16 +84,14 @@ rules:
   request-mime-type:
     severity: error
     allowedValues:
-      - application/json
+      - "application/json"
+      - "application/problem+json"
+      - "text/html"
 
   # responses must contain the required properties
   response-contains-property:
     severity: error
     names:
-      2xx:
-      # TODO: add message and status to all 2xx responses
-      #  - message
-      #  - status
       4xx:
         - message
         - status
@@ -105,7 +103,9 @@ rules:
   response-mime-type:
     severity: error
     allowedValues:
-      - application/json
+      - "application/json"
+      - "application/problem+json"
+      - "text/html"
 
   # descriptions must start with a capital letter
   rule/description-capitalization:
