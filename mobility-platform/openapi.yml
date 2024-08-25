@@ -779,7 +779,7 @@ paths:
               type: object
               $ref: '#/components/schemas/MovementLock'
       security:
-        - x-pathfinder-auth-elevated: []
+        - x-pathfinder-auth-elevated: [ ]
       summary: Allow movements
       tags:
         - movement
@@ -791,16 +791,16 @@ paths:
         '200':
           $ref: '#/components/responses/MovementLock'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          $ref: '#/components/responses/ErrorInternalServerError'
       requestBody:
         content:
           application/json:
             schema:
               type: object
               $ref: '#/components/schemas/MovementLock'
-      security: []
+      security: [ ]
       summary: Disallow movements
       tags:
         - movement
@@ -812,10 +812,10 @@ paths:
         '200':
           $ref: '#/components/responses/MovementLock'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
-      security: []
+          $ref: '#/components/responses/ErrorInternalServerError'
+      security: [ ]
       summary: Retrieve movement lock status
       tags:
         - movement
@@ -831,10 +831,10 @@ paths:
         '200':
           $ref: '#/components/responses/Readyz'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
-      security: []
+          $ref: '#/components/responses/ErrorInternalServerError'
+      security: [ ]
       summary: Retrieve readiness status
       tags:
         - health
@@ -843,7 +843,7 @@ paths:
 
 # security requirements are set on a per-operation basis
 # see https://swagger.io/specification/#security-scheme-object
-security: []
+security: [ ]
 
 # see https://swagger.io/specification/#server-object
 servers:
