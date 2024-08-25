@@ -73,6 +73,11 @@ rules:
   operation-2xx-response: error
   operation-4xx-response: error
 
+  # 4xx operations must conform to the RFC 7807 format
+  # (this may switch to RFC 9457 format in the future)
+  # see https://redocly.com/docs/cli/rules/operation-4xx-problem-details-rfc7807
+  operation-4xx-problem-details-rfc7807: error
+
   # operations must have an operation identifier and it must be unique
   operation-operationId: error
   operation-operationId-unique: error
