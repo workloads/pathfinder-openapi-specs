@@ -39,18 +39,6 @@ info:
 components:
   # see https://swagger.io/specification/#schema-object
   schemas:
-    BadRequestError:
-      allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
-        - type: object
-          properties:
-            message:
-              type: string
-              example: Bad Request
-            status:
-              type: number
-              example: 400
-
     Device:
       description: Response containing the device status
       properties:
@@ -215,40 +203,88 @@ components:
       type: array
 
     ErrorMessage:
-      description: Response containing the error message
+      description: Response containing the error
       properties:
-        message:
-          description: Error message
+        title:
+          description: Title of error
           examples:
             - Bad Request
             - Internal Server Error
           type: string
-        status:
-          description: HTTP status code
+        type:
+          description: Type of error
           examples:
             - 400
             - 500
           type: number
       required:
-        - message
-        - status
+        - title
+        - type
       type: object
 
-    FeatureFlagItem:
-      description: Structure of a single feature flag item
-      type: boolean
-
-    ForbiddenError:
+    ErrorBadRequest:
       allOf:
         - $ref: '#/components/schemas/ErrorMessage'
         - type: object
           properties:
-            message:
+            title:
+              type: string
+              example: Bad Request
+            type:
+              type: number
+              example: 400
+
+    ErrorForbidden:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            title:
               type: string
               example: Forbidden
-            status:
+            type:
               type: number
               example: 403
+
+    ErrorInternalServerError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            title:
+              type: string
+              example: Internal Server Error
+            type:
+              type: number
+              example: 500
+
+    ErrorNotFound:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            title:
+              type: string
+              example: Not Found
+            type:
+              type: number
+              example: 400
+
+    ErrorUnauthorized:
+      allOf:
+        - $ref: '#/components/schemas/ErrorMessage'
+        - type: object
+          properties:
+            title:
+              type: string
+              example: Unauthorized
+            type:
+              type: number
+              example: 401
+
+    FeatureFlagItem:
+      description: Structure of a single feature flag item
+      type: boolean
 
     Healthz:
       description: Response containing the health status
@@ -261,18 +297,6 @@ components:
       required:
         - ready
       type: object
-
-    InternalServerError:
-      allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
-        - type: object
-          properties:
-            message:
-              type: string
-              example: Internal Server Error
-            status:
-              type: number
-              example: 500
 
     MovementDelete:
       description: Request containing the movement identifier TODO
@@ -546,10 +570,10 @@ paths:
         '200':
           $ref: '#/components/responses/Device'
         '400':
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/ErrorBadRequest'
         '500':
-          $ref: '#/components/responses/InternalServerError'
-      security: []
+          $ref: '#/components/responses/ErrorInternalServerError'
+      security: [ ]
       summary: Retrieve device status
       tags:
         - device
