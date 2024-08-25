@@ -554,6 +554,34 @@ externalDocs:
 
 # see https://swagger.io/specification/#paths-object
 paths:
+  /:
+    get:
+      description: Retrieve the root HTML content
+      operationId: getRootContent
+      responses:
+        '200':
+          $ref: '#/components/responses/InterfaceRoot'
+        '400':
+          $ref: '#/components/responses/InterfaceRoot'
+      security: [ ]
+      summary: Retrieve root
+      tags:
+        - meta
+
+  /v1:
+    get:
+      description: Retrieve the API root content
+      operationId: getApiRootContent
+      responses:
+        '200':
+          $ref: '#/components/responses/InterfaceApiRoot'
+        '400':
+          $ref: '#/components/responses/InterfaceRoot'
+      security: [ ]
+      summary: Retrieve API root
+      tags:
+        - meta
+
   /v1/device:
     get:
       description: Retrieve the device status
@@ -896,6 +924,10 @@ tags:
   - description: Endpoints for retrieving health and readiness status
     name: health
     x-displayName: Health
+
+  - description: Meta Endpoints for retrieving
+    name: meta
+    x-displayName: Meta
 
   - name: movement
     description: Endpoints for managing and monitoring movements
