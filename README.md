@@ -30,8 +30,9 @@ Pathfinder consists of distinct hardware components, each with their own API spe
 
 For development and testing of this repository:
 
-* `redocly` `1.19.0` or [newer](https://redocly.com/docs/cli/installation)
-* `spectral` `6.1.0` or [newer](https://docs.stoplight.io/docs/spectral/b8391e051b7d8-installation)
+* `prism` `5.9.0` or [newer](https://www.npmjs.com/package/@stoplight/prism-cli)
+* `redocly` `1.19.0` or [newer](https://www.npmjs.com/package/@redocly/cli)
+* `spectral` `6.1.0` or [newer](https://www.npmjs.com/package/@stoplight/spectral-cli)
 
 ## Usage
 
