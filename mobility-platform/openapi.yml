@@ -405,18 +405,6 @@ components:
         - name
       type: object
 
-    NotFoundError:
-      allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
-        - type: object
-          properties:
-            message:
-              type: string
-              example: Not Found
-            status:
-              type: number
-              example: 400
-
     Readyz:
       description: Response containing the readiness status
       properties:
@@ -429,27 +417,8 @@ components:
         - ready
       type: object
 
-    UnauthorizedError:
-      allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
-        - type: object
-          properties:
-            message:
-              type: string
-              example: Unauthorized
-            status:
-              type: number
-              example: 401
-
   # see https://swagger.io/specification/#responses-object
   responses:
-    BadRequestError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/BadRequestError'
-      description: Response containing the error message
-
     Device:
       content:
         application/json:
@@ -485,39 +454,39 @@ components:
             $ref: '#/components/schemas/DeviceWifiScan'
       description: Response containing the available Wi-Fi networks
 
-    ForbiddenError:
+    ErrorBadRequest:
       content:
-        application/json:
+        application/problem+json:
           schema:
-            $ref: '#/components/schemas/ForbiddenError'
+            $ref: '#/components/schemas/ErrorBadRequest'
       description: Response containing the error message
 
-    Healthz:
+    ErrorForbidden:
       content:
-        application/json:
+        application/problem+json:
           schema:
-            $ref: '#/components/schemas/Healthz'
-      description: Response containing the health status
-
-    InternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/InternalServerError'
+            $ref: '#/components/schemas/ErrorForbidden'
       description: Response containing the error message
 
-    Movement:
+    ErrorInternalServerError:
       content:
-        application/json:
+        application/problem+json:
           schema:
-            $ref: '#/components/schemas/MovementResponse'
+            $ref: '#/components/schemas/ErrorInternalServerError'
       description: Response containing the error message
 
-    MovementLock:
+    ErrorNotFound:
       content:
-        application/json:
+        application/problem+json:
           schema:
-            $ref: '#/components/schemas/MovementLock'
+            $ref: '#/components/schemas/ErrorNotFound'
+      description: Response containing the error message
+
+    ErrorUnauthorized:
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ErrorUnauthorized'
       description: Response containing the error message
 
     NotFoundError:
