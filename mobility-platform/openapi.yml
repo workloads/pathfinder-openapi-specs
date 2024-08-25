@@ -289,13 +289,13 @@ components:
     Healthz:
       description: Response containing the health status
       properties:
-        ready:
+        healthy:
           description: Health status
           examples:
             - true
           type: boolean
       required:
-        - ready
+        - healthy
       type: object
 
     MovementDelete:
