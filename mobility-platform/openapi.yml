@@ -11,7 +11,7 @@ info:
   contact:
     email: github.com/workloads
     name: Project Maintainers
-    url: 'https://github.com/workloads/pathfinder/issues'
+    url: "https://github.com/workloads/pathfinder/issues"
 
   description: |
     This OpenAPI specification describes the programmatic interface of the _Pathfinder Mobility Platform_.
@@ -29,7 +29,7 @@ info:
 
   # see https://github.com/Redocly/redoc/blob/main/docs/redoc-vendor-extensions.md#x-logo
   x-logo:
-    url: 'https://assets.workloads.io/pathfinder/mobility-platform-logo.png'
+    url: "https://assets.workloads.io/pathfinder/mobility-platform-logo.png"
     backgroundColor: '#282433'
     altText: Pathfinder logo
 
@@ -346,7 +346,7 @@ components:
       # see https://swagger.io/specification/#external-documentation-object
       externalDocs:
         description: "Documentation on the Schema of a Movement Plans"
-        url: 'https://github.com/workloads/pathfinder-openapi-specs/blob/main/movement-plan/README.md'
+        url: "https://github.com/workloads/pathfinder-openapi-specs/blob/main/movement-plan/README.md"
       properties:
         angle:
           description: "Angle (in degrees) of movement"
@@ -567,7 +567,7 @@ components:
 # see https://swagger.io/specification/#external-documentation-object
 externalDocs:
   description: "Project Documentation"
-  url: 'https://github.com/workloads/pathfinder'
+  url: "https://github.com/workloads/pathfinder"
 
 # see https://swagger.io/specification/#paths-object
 paths:
@@ -909,10 +909,10 @@ security: [ ]
 # see https://swagger.io/specification/#server-object
 servers:
   - description: "Mock HTTP interface for testing"
-    url: 'http://mock.local.svcs.dev:7284'
+    url: "http://mock.local.svcs.dev:7284"
 
   - description: "On-device HTTP interface"
-    url: 'http://pathfinder-{deviceIdentifier}.local.workloads.io:7284'
+    url: "http://pathfinder-{deviceIdentifier}.local.workloads.io:7284"
 
     # see https://swagger.io/specification/#server-variable-object
     variables:
@@ -957,4 +957,4 @@ tags:
     # see https://swagger.io/specification/#external-documentation-object
     externalDocs:
       description: "Terraform Provider for Pathfinder"
-      url: 'https://github.com/workloads/terraform-provider-pathfinder'
+      url: "https://github.com/workloads/terraform-provider-pathfinder"
