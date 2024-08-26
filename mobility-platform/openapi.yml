@@ -25,12 +25,12 @@ info:
 
   summary: "Pathfinder - Mobility Platform"
 
-  termsOfService: 'https://github.com/workloads/.github/blob/main/CONTRIBUTING.md'
+  termsOfService: "https://github.com/workloads/.github/blob/main/CONTRIBUTING.md"
 
   # see https://github.com/Redocly/redoc/blob/main/docs/redoc-vendor-extensions.md#x-logo
   x-logo:
     url: "https://assets.workloads.io/pathfinder/mobility-platform-logo.png"
-    backgroundColor: '#282433'
+    backgroundColor: "#282433"
     altText: Pathfinder logo
 
   x-terraform-provider-name: pathfinder
@@ -44,7 +44,7 @@ components:
       properties:
         features:
           additionalProperties:
-            $ref: '#/components/schemas/FeatureFlagItem'
+            $ref: "#/components/schemas/FeatureFlagItem"
           description: "Feature flags"
           examples:
             - isHttpEnabled: true
@@ -107,19 +107,19 @@ components:
       description: "Response containing the battery status"
       properties:
         shuntVoltage:
-          $ref: '#/components/schemas/DeviceBatteryItem'
+          $ref: "#/components/schemas/DeviceBatteryItem"
         busVoltage:
           type: object
-          $ref: '#/components/schemas/DeviceBatteryItem'
+          $ref: "#/components/schemas/DeviceBatteryItem"
         current:
           type: object
-          $ref: '#/components/schemas/DeviceBatteryItem'
+          $ref: "#/components/schemas/DeviceBatteryItem"
         power:
           type: object
-          $ref: '#/components/schemas/DeviceBatteryItem'
+          $ref: "#/components/schemas/DeviceBatteryItem"
         loadVoltage:
           type: object
-          $ref: '#/components/schemas/DeviceBatteryItem'
+          $ref: "#/components/schemas/DeviceBatteryItem"
         ina219Overflow:
           type: boolean
           examples:
@@ -163,7 +163,7 @@ components:
     DeviceWifi:
       description: "Response containing the Wi-Fi network"
       items:
-        $ref: '#/components/schemas/DeviceWifiNetworkItem'
+        $ref: "#/components/schemas/DeviceWifiNetworkItem"
       type: array
       maximum: 1
       minimum: 1
@@ -216,7 +216,7 @@ components:
     DeviceWifiScan:
       description: "Response containing the detected Wi-Fi networks"
       items:
-        $ref: '#/components/schemas/DeviceWifiNetworkItem'
+        $ref: "#/components/schemas/DeviceWifiNetworkItem"
       type: array
 
     ErrorMessage:
@@ -241,7 +241,7 @@ components:
 
     ErrorBadRequest:
       allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
+        - $ref: "#/components/schemas/ErrorMessage"
         - type: object
           properties:
             title:
@@ -253,7 +253,7 @@ components:
 
     ErrorForbidden:
       allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
+        - $ref: "#/components/schemas/ErrorMessage"
         - type: object
           properties:
             title:
@@ -265,7 +265,7 @@ components:
 
     ErrorInternalServerError:
       allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
+        - $ref: "#/components/schemas/ErrorMessage"
         - type: object
           properties:
             title:
@@ -277,7 +277,7 @@ components:
 
     ErrorNotFound:
       allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
+        - $ref: "#/components/schemas/ErrorMessage"
         - type: object
           properties:
             title:
@@ -289,7 +289,7 @@ components:
 
     ErrorUnauthorized:
       allOf:
-        - $ref: '#/components/schemas/ErrorMessage'
+        - $ref: "#/components/schemas/ErrorMessage"
         - type: object
           properties:
             title:
@@ -393,7 +393,7 @@ components:
         steps:
           description: "List of movement steps"
           items:
-            $ref: '#/components/schemas/MovementStepItem'
+            $ref: "#/components/schemas/MovementStepItem"
           maxItems: 50
           minItems: 1
           type: array
@@ -440,77 +440,77 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Device'
+            $ref: "#/components/schemas/Device"
       description: "Response containing the device status"
 
     DeviceBattery:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DeviceBattery'
+            $ref: "#/components/schemas/DeviceBattery"
       description: "Response containing the battery status"
 
     DeviceReboot:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DeviceReboot'
+            $ref: "#/components/schemas/DeviceReboot"
       description: "Response containing the reboot status"
 
     DeviceWifi:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DeviceWifi'
+            $ref: "#/components/schemas/DeviceWifi"
       description: "Response containing the Wi-Fi status"
 
     DeviceWifiScan:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DeviceWifiScan'
+            $ref: "#/components/schemas/DeviceWifiScan"
       description: "Response containing the available Wi-Fi networks"
 
     ErrorBadRequest:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/ErrorBadRequest'
+            $ref: "#/components/schemas/ErrorBadRequest"
       description: "Response containing the error object"
 
     ErrorForbidden:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/ErrorForbidden'
+            $ref: "#/components/schemas/ErrorForbidden"
       description: "Response containing the error object"
 
     ErrorInternalServerError:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/ErrorInternalServerError'
+            $ref: "#/components/schemas/ErrorInternalServerError"
       description: "Response containing the error object"
 
     ErrorNotFound:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/ErrorNotFound'
+            $ref: "#/components/schemas/ErrorNotFound"
       description: "Response containing the error object"
 
     ErrorUnauthorized:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/ErrorUnauthorized'
+            $ref: "#/components/schemas/ErrorUnauthorized"
       description: "Response containing the error object"
 
     Healthz:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Healthz'
+            $ref: "#/components/schemas/Healthz"
       description: "Response containing the health status"
 
     InterfaceRoot:
@@ -533,21 +533,21 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/MovementResponse'
+            $ref: "#/components/schemas/MovementResponse"
       description: "Response containing the movement response object"
 
     MovementLock:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/MovementLock'
+            $ref: "#/components/schemas/MovementLock"
       description: "Response containing the movement lock object"
 
     Readyz:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Readyz'
+            $ref: "#/components/schemas/Readyz"
       description: "Response containing the ready status"
 
   # see https://swagger.io/specification/#security-scheme-object
@@ -577,9 +577,9 @@ paths:
       operationId: getRootContent
       responses:
         '200':
-          $ref: '#/components/responses/InterfaceRoot'
+          $ref: "#/components/responses/InterfaceRoot"
         '400':
-          $ref: '#/components/responses/InterfaceRoot'
+          $ref: "#/components/responses/InterfaceRoot"
       security: [ ]
       summary: "Retrieve root"
       tags:
@@ -591,9 +591,9 @@ paths:
       operationId: getApiRootContent
       responses:
         '200':
-          $ref: '#/components/responses/InterfaceApiRoot'
+          $ref: "#/components/responses/InterfaceApiRoot"
         '400':
-          $ref: '#/components/responses/InterfaceRoot'
+          $ref: "#/components/responses/InterfaceRoot"
       security: [ ]
       summary: "Retrieve API root"
       tags:
@@ -605,11 +605,11 @@ paths:
       operationId: getDeviceInformation
       responses:
         '200':
-          $ref: '#/components/responses/Device'
+          $ref: "#/components/responses/Device"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security: [ ]
       summary: "Retrieve device status"
       tags:
@@ -624,11 +624,11 @@ paths:
       operationId: getDeviceBattery
       responses:
         '200':
-          $ref: '#/components/responses/DeviceBattery'
+          $ref: "#/components/responses/DeviceBattery"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security: [ ]
       summary: "Retrieve battery status"
       tags:
@@ -646,16 +646,16 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/DeviceReboot'
+              $ref: "#/components/schemas/DeviceReboot"
       responses:
         '200':
-          $ref: '#/components/responses/DeviceReboot'
+          $ref: "#/components/responses/DeviceReboot"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          $ref: "#/components/responses/ErrorUnauthorized"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security:
         - x-pathfinder-auth-elevated: [ ]
       summary: "Initiate reboot"
@@ -668,11 +668,11 @@ paths:
       operationId: getDeviceWifi
       responses:
         '200':
-          $ref: '#/components/responses/DeviceWifi'
+          $ref: "#/components/responses/DeviceWifi"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security: [ ]
       summary: "Retrieve Wi-Fi status"
       tags:
@@ -686,17 +686,17 @@ paths:
       operationId: postDeviceWifiChange
       responses:
         '200':
-          $ref: '#/components/responses/DeviceWifi'
+          $ref: "#/components/responses/DeviceWifi"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/DeviceWifiRequest'
+              $ref: "#/components/schemas/DeviceWifiRequest"
       security: [ ]
       summary: "Update Wi-Fi configuration"
       tags:
@@ -708,11 +708,11 @@ paths:
       operationId: getDeviceWifiScan
       responses:
         '200':
-          $ref: '#/components/responses/DeviceWifiScan'
+          $ref: "#/components/responses/DeviceWifiScan"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security: [ ]
       summary: "Initiate Wi-Fi scan"
       tags:
@@ -726,11 +726,11 @@ paths:
       operationId: getHealthz
       responses:
         '200':
-          $ref: '#/components/responses/Healthz'
+          $ref: "#/components/responses/Healthz"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security: [ ]
       summary: "Retrieve health status"
       tags:
@@ -756,16 +756,16 @@ paths:
             type: string
       responses:
         '200':
-          $ref: '#/components/responses/Movement'
+          $ref: "#/components/responses/Movement"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovementDelete'
+              $ref: "#/components/schemas/MovementDelete"
       security: [ ]
       summary: "Stop movement"
       tags:
@@ -780,13 +780,13 @@ paths:
       operationId: getMovement
       responses:
         '200':
-          $ref: '#/components/responses/Movement'
+          $ref: "#/components/responses/Movement"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          $ref: "#/components/responses/ErrorNotFound"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security: [ ]
       summary: "Retrieve movement status"
       tags:
@@ -801,19 +801,19 @@ paths:
       operationId: postMovement
       responses:
         '200':
-          $ref: '#/components/responses/Movement'
+          $ref: "#/components/responses/Movement"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          $ref: "#/components/responses/ErrorForbidden"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/MovementRequest'
+              $ref: "#/components/schemas/MovementRequest"
       security: [ ]
       summary: "Initiate movement"
       tags:
@@ -828,17 +828,17 @@ paths:
       operationId: deleteMovementLock
       responses:
         '200':
-          $ref: '#/components/responses/MovementLock'
+          $ref: "#/components/responses/MovementLock"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/MovementLock'
+              $ref: "#/components/schemas/MovementLock"
       security:
         - x-pathfinder-auth-elevated: [ ]
       summary: "Allow movements"
@@ -850,17 +850,17 @@ paths:
       operationId: postMovementLock
       responses:
         '200':
-          $ref: '#/components/responses/MovementLock'
+          $ref: "#/components/responses/MovementLock"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/MovementLock'
+              $ref: "#/components/schemas/MovementLock"
       security: [ ]
       summary: "Disallow movements"
       tags:
@@ -871,11 +871,11 @@ paths:
       operationId: getMovementLockStatus
       responses:
         '200':
-          $ref: '#/components/responses/MovementLock'
+          $ref: "#/components/responses/MovementLock"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security: [ ]
       summary: "Retrieve movement lock status"
       tags:
@@ -890,11 +890,11 @@ paths:
       operationId: getReadyz
       responses:
         '200':
-          $ref: '#/components/responses/Readyz'
+          $ref: "#/components/responses/Readyz"
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          $ref: "#/components/responses/ErrorBadRequest"
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          $ref: "#/components/responses/ErrorInternalServerError"
       security: [ ]
       summary: "Retrieve readiness status"
       tags:
