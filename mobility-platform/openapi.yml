@@ -41,6 +41,18 @@ components:
   schemas:
     Device:
       description: "Response containing the device status"
+      example:
+        features:
+          isHttpEnabled: true
+          isInsightsEnabled: false
+        identifiers:
+          long: pathfinder-000000000000C418
+          short: pathfinder-c418
+        name: Pathfinder
+        uptime: 1234
+        versions:
+          api: 0.1.0
+          app: 0.10.0
       properties:
         features:
           additionalProperties:
@@ -106,6 +118,23 @@ components:
 
     DeviceBattery:
       description: "Response containing the battery status"
+      examples:
+        - shuntVoltage:
+            unit: mV
+            value: 1
+          busVoltage:
+            unit: mV
+            value: 2
+          current:
+            unit: mA
+            value: 3
+          power:
+            unit: mW
+            value: 4
+          loadVoltage:
+            unit: mV
+            value: 5
+          ina219Overflow: false
       properties:
         shuntVoltage:
           $ref: "#/components/schemas/DeviceBatteryItem"
@@ -130,6 +159,11 @@ components:
 
     DeviceBatteryItem:
       description: "Structure of a single battery item"
+      examples:
+        - unit: mA
+          value: 1
+        - unit: mV
+          value: 2
       properties:
         unit:
           description: "Unit of the battery item"
@@ -151,6 +185,8 @@ components:
 
     DeviceReboot:
       description: "Response containing the reboot status"
+      examples:
+        - reboot: true
       properties:
         reboot:
           description: "Reboot status"
@@ -171,6 +207,9 @@ components:
 
     DeviceWifiRequest:
       description: "Request containing a Wi-Fi network configuration"
+      examples:
+        - password: workloads
+          ssid: workloads
       properties:
         password:
           description: "Password"
@@ -189,6 +228,10 @@ components:
 
     DeviceWifiNetworkItem:
       description: "Structure of a single Wi-Fi network item"
+      examples:
+        - encrypted: true
+          rssi: -30
+          ssid: workloads
       properties:
         encrypted:
           description: "Encryption status"
@@ -222,6 +265,11 @@ components:
 
     ErrorMessage:
       description: "Response containing the error"
+      examples:
+        - title: Bad Request
+          type: 400
+        - title: Internal Server Error
+          type: 500
       properties:
         title:
           description: "Title of error"
@@ -251,6 +299,9 @@ components:
             type:
               type: number
               example: 400
+      examples:
+        - title: Bad Request
+          type: 400
 
     ErrorForbidden:
       allOf:
@@ -263,6 +314,9 @@ components:
             type:
               type: number
               example: 403
+      examples:
+        - title: Forbidden
+          type: 403
 
     ErrorInternalServerError:
       allOf:
@@ -275,6 +329,9 @@ components:
             type:
               type: number
               example: 500
+      examples:
+        - title: Internal Server Error
+          type: 500
 
     ErrorNotFound:
       allOf:
@@ -287,6 +344,9 @@ components:
             type:
               type: number
               example: 400
+      examples:
+        - title: Not Found
+          type: 404
 
     ErrorUnauthorized:
       allOf:
@@ -299,13 +359,21 @@ components:
             type:
               type: number
               example: 401
+      examples:
+          - title: Unauthorized
+            type: 401
 
     FeatureFlagItem:
       description: "Structure of a single feature flag item"
+      examples:
+        - true
+        - false
       type: boolean
 
     Healthz:
       description: "Response containing the health status"
+      examples:
+        - healthy: true
       properties:
         healthy:
           description: "Health status"
@@ -318,6 +386,9 @@ components:
 
     MovementDelete:
       description: "Request containing the movement identifier TODO"
+      examples:
+        - id: movement-1ab2
+          name: Movement Plan
       properties:
         id:
           description: "Identifier of the movement plan"
@@ -331,6 +402,8 @@ components:
 
     MovementLock:
       description: "Response containing the movement lock status"
+      examples:
+        - locked: true
       properties:
         locked:
           description: "Movement lock status"
@@ -343,7 +416,10 @@ components:
 
     MovementStepItem:
       description: "Structure of a single movement step"
-
+      examples:
+        - angle: 90
+          direction: forward
+          distance: 10
       # see https://swagger.io/specification/#external-documentation-object
       externalDocs:
         description: "Documentation on the Schema of a Movement Plans"
@@ -379,6 +455,13 @@ components:
 
     MovementRequest:
       description: "Request for a movement"
+      examples:
+        - name: Movement Plan
+          persist: true
+          steps:
+            - angle: 90
+              direction: forward
+              distance: 10
       properties:
         name:
           description: "Name of the movement plan"
@@ -406,6 +489,9 @@ components:
 
     MovementResponse:
       description: "Response containing the movement operation status"
+      examples:
+        - id: movement-1ab2
+          name: Movement Plan
       properties:
         id:
           description: "Identifier of the movement plan"
@@ -425,6 +511,8 @@ components:
 
     Readyz:
       description: "Response containing the readiness status"
+      examples:
+        - ready: true
       properties:
         ready:
           description: "Readiness status"
