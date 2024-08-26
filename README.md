@@ -58,9 +58,9 @@ redocly-bundle             bundle output without decorators using redocly       
 redocly-bundle-terraform   bundle output for Terraform using redocly                       `make redocly-bundle-terraform`
 redocly-bundle-arduino     bundle output for Arduino using redocly                         `make redocly-bundle-arduino`
 redocly-generate-ignore    generate (or update) an ignores file using redocly              `make redocly-generate-ignore`
+prism-mock-mobility        start mock server using prism                                   `make prism-mock-mobility`
 provider-config            generate plugin generator config using tfplugingen-openapi      `make provider-config`
 provider-framework         generate plugin framework config using tfplugingen-framework    `make provider-framework`
-generate                   generate plugin framework config using tfplugingen-framework    `make generate`
 help                       display a list of Make Targets                                  `make help`
 _listincludes              list all included Makefiles and *.mk files                      `make _listincludes`
 _selfcheck                 lint Makefile                                                   `make _selfcheck`
