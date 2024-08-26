@@ -417,7 +417,7 @@ components:
     MovementStepItem:
       description: "Structure of a single movement step"
       examples:
-        - angle: 90
+        - bearing: 90
           direction: forward
           distance: 10
       # see https://swagger.io/specification/#external-documentation-object
@@ -425,7 +425,7 @@ components:
         description: "Documentation on the Schema of a Movement Plans"
         url: "https://github.com/workloads/pathfinder-openapi-specs/blob/main/movement-plan/README.md"
       properties:
-        angle:
+        bearing:
           description: "Angle (in degrees) of movement"
           examples:
             - 90
@@ -448,7 +448,7 @@ components:
           minimum: 1
           type: number
       required:
-        - angle
+        - bearing
         - direction
         - distance
       type: object
@@ -459,7 +459,7 @@ components:
         - name: Movement Plan
           persist: true
           steps:
-            - angle: 90
+            - bearing: 90
               direction: forward
               distance: 10
       properties:

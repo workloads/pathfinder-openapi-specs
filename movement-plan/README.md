@@ -10,7 +10,7 @@
   * [Definition](#definition)
     * [Movement Plan](#movement-plan)
     * [Movement Step](#movement-step)
-      * [Angle](#angle)
+      * [Bearing](#bearing)
       * [Direction](#direction)
       * [Distance](#distance)
   * [Track Map](#track-map)
@@ -34,15 +34,15 @@ Each movement plan consists of `n` number of steps.
 
 Each movement step consists of three child items.
 
-#### Angle
+#### Bearing
 
-The `angle` value represents the heading of the next movement.
+The `bearing` value represents the heading of the next movement.
 
 * This value is expressed in degrees.
 * The acceptable range for this value is `>= -360` and `<= 360`.
 
 > [!IMPORTANT]
-> The `angle` value is _always_ relative to the device's current heading.
+> The `bearing` value is _always_ relative to the device's current heading.
 
 #### Direction
 
@@ -81,13 +81,13 @@ This section provides an example of a movement plan that represents 10 of the 34
 
 **Step 1**
 
-* angle: `0`
+* bearing: `0`
 * direction: `forward`
 * distance: `50`
 
 ```hcl
 step {
-  angle     = 0
+  bearing     = 0
   direction = "forward"
   distance  = "50"
 }
@@ -95,13 +95,13 @@ step {
 
 **Step 2**
 
-* angle: `-25`
+* bearing: `-25`
 * direction: `forward`
 * distance: `10`
 
 ```hcl
 step {
-  angle     = -25
+  bearing     = -25
   direction = "forward"
   distance  = "10"
 }
@@ -109,13 +109,13 @@ step {
 
 **Step 3**
 
-* angle: `-20`
+* bearing: `-20`
 * direction: `forward`
 * distance: `10`
 
 ```hcl
 step {
-  angle     = -20
+  bearing     = -20
   direction = "forward"
   distance  = "10"
 }
