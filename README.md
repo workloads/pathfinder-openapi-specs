@@ -22,6 +22,8 @@ Pathfinder consists of distinct hardware components, each with their own API spe
 - Mobility Platform: [mobility-platform/openapi.yml](./mobility-platform/openapi.yml)
 - Vision Platform: `pending`
 
+For more information on the underlying hardware, see [workloads/pathfinder](https://github.com/workloads/pathfinder?tab=readme-ov-file#hardware).
+
 ## Requirements
 
 - a copy of [@workloads/tooling](https://github.com/workloads/tooling)
@@ -33,6 +35,8 @@ For development and testing of this repository:
 * `prism` `5.9.0` or [newer](https://www.npmjs.com/package/@stoplight/prism-cli)
 * `redocly` `1.19.0` or [newer](https://www.npmjs.com/package/@redocly/cli)
 * `spectral` `6.1.0` or [newer](https://www.npmjs.com/package/@stoplight/spectral-cli)
+
+These tools provide linting, validation, and documentation generation for OpenAPI specifications.
 
 ## Usage
 
