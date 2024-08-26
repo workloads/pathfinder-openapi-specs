@@ -682,10 +682,10 @@ paths:
       tags:
         - meta
 
-  /v1/device:
+  /v1/device/status:
     get:
       description: "Retrieve the device status."
-      operationId: getDeviceInformation
+      operationId: getDeviceStatus
       responses:
         '200':
           $ref: "#/components/responses/Device"
