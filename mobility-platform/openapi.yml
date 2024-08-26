@@ -105,10 +105,27 @@ components:
 
     DeviceBattery:
       description: Response containing the battery status
-      items:
-        $ref: '#/components/schemas/DeviceBatteryItem'
-      maxItems: 4
-      type: array
+      properties:
+        shuntVoltage:
+          $ref: '#/components/schemas/DeviceBatteryItem'
+        busVoltage:
+          type: object
+          $ref: '#/components/schemas/DeviceBatteryItem'
+        current:
+          type: object
+          $ref: '#/components/schemas/DeviceBatteryItem'
+        power:
+          type: object
+          $ref: '#/components/schemas/DeviceBatteryItem'
+        loadVoltage:
+          type: object
+          $ref: '#/components/schemas/DeviceBatteryItem'
+        ina219Overflow:
+          type: boolean
+          examples:
+            - true
+            - false
+      type: object
 
     DeviceBatteryItem:
       description: Structure of a single battery item
