@@ -21,10 +21,10 @@ jobs:
       group: "${{ github.workflow }}-${{ github.ref }}-pages"
       cancel-in-progress: true
 
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+#    # Deploy to the github-pages environment
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deployment.outputs.page_url }}
 
     permissions:
       contents: read
