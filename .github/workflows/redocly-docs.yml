@@ -51,12 +51,12 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-#      # see https://github.com/marketplace/actions/redocly-cli-github-action
-#      - name: Build Redocly Docs for Target `${{ matrix.targets }}`
-#        uses: fluximus-prime/redocly-cli-github-action@v1
-#        with:
-#          args: "build-docs --config='${{ env.REDOCLY_CONFIG }}' --disableGoogleFont --output='${{ env.REDOCLY_OUTPUT }}/${{ matrix.targets }}' '${{ matrix.targets }}/openapi.yml'"
-#
+      # see https://github.com/marketplace/actions/redocly-cli-github-action
+      - name: Build Redocly Docs for Target `${{ matrix.targets }}`
+        uses: fluximus-prime/redocly-cli-github-action@v1
+        with:
+          args: "build-docs --config='${{ env.REDOCLY_CONFIG }}' --disableGoogleFont --output='${{ env.REDOCLY_OUTPUT }}/${{ matrix.targets }}' '${{ matrix.targets }}/openapi.yml'"
+
 #      # see https://github.com/actions/upload-pages-artifact
 #      - name: Upload artifacts for Target `${{ matrix.targets }}`
 #        uses: actions/upload-pages-artifact@v3
