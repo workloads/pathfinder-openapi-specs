@@ -4,6 +4,9 @@ name: "Redocly: Documentation"
 
 on:  # yamllint disable-line rule:truthy
   push:
+    branches:
+      - main
+      - adds-spec
 
 env:
   REDOCLY_CONFIG: ".redocly.yml"
