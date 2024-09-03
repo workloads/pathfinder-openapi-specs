@@ -683,6 +683,7 @@ paths:
       summary: "Retrieve root"
       tags:
         - meta
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -705,6 +706,7 @@ paths:
       summary: "Retrieve API root"
       tags:
         - meta
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -730,6 +732,7 @@ paths:
       tags:
         - device
         - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -757,6 +760,7 @@ paths:
       tags:
         - device
         - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -792,6 +796,7 @@ paths:
       summary: "Initiate reboot"
       tags:
         - device
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -819,6 +824,7 @@ paths:
       tags:
         - device-wifi
         - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -850,6 +856,7 @@ paths:
       summary: "Update Wi-Fi configuration"
       tags:
         - device-wifi
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -875,6 +882,7 @@ paths:
       summary: "Initiate Wi-Fi scan"
       tags:
         - device-wifi
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -901,6 +909,7 @@ paths:
       summary: "Retrieve health status"
       tags:
         - health
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -945,6 +954,7 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -975,6 +985,7 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -1010,6 +1021,7 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -1044,6 +1056,7 @@ paths:
       summary: "Allow movements"
       tags:
         - movement
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -1074,6 +1087,7 @@ paths:
       summary: "Disallow movements"
       tags:
         - movement
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -1099,6 +1113,7 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
@@ -1125,6 +1140,7 @@ paths:
       summary: "Retrieve readiness status"
       tags:
         - health
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
       x-codeSamples:
         - lang: 'cURL'
           label: 'CLI'
