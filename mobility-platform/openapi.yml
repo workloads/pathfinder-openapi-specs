@@ -295,10 +295,12 @@ components:
           properties:
             title:
               type: string
-              example: Bad Request
+              examples:
+                - Bad Request
             type:
               type: number
-              example: 400
+              examples:
+                - 400
       examples:
         - title: Bad Request
           type: 400
@@ -310,10 +312,12 @@ components:
           properties:
             title:
               type: string
-              example: Forbidden
+              examples:
+                - Forbidden
             type:
               type: number
-              example: 403
+              examples:
+                - 403
       examples:
         - title: Forbidden
           type: 403
@@ -325,10 +329,12 @@ components:
           properties:
             title:
               type: string
-              example: Internal Server Error
+              examples:
+                - Internal Server Error
             type:
               type: number
-              example: 500
+              examples:
+                - 500
       examples:
         - title: Internal Server Error
           type: 500
@@ -355,10 +361,12 @@ components:
           properties:
             title:
               type: string
-              example: Unauthorized
+              examples:
+                - Unauthorized
             type:
               type: number
-              example: 401
+              examples:
+                - 401
       examples:
           - title: Unauthorized
             type: 401
@@ -394,6 +402,12 @@ components:
           description: "Identifier of the movement plan"
           examples:
             - movement-1ab2
+          type: string
+        name:
+          description: "Name of the movement plan"
+          examples:
+            - Movement Plan
+            - movement-plan
           type: string
       required:
         - id
@@ -607,7 +621,8 @@ components:
         text/html:
           schema:
             type: string
-            example: "<html><body>Index</body></html>"
+            examples:
+              - "<html><body>Index</body></html>"
       description: "Response containing HTML"
 
     InterfaceApiRoot:
@@ -615,7 +630,8 @@ components:
         text/html:
           schema:
             type: string
-            example: "<html><body>API Index</body></html>"
+            examples:
+              - "<html><body>API Index</body></html>"
       description: "Response containing HTML"
 
     Movement:
