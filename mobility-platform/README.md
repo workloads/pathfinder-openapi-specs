@@ -9,4 +9,4 @@
 
 ## Notes
 
-A detailed description of the schema of a _Movement Plan_ can be found in the root-level directory [movement-plan](../movement-plan/README.md).
+A detailed description of the _Movement Plan_ schema can be found in the root-level directory [movement-plan](../movement-plan/README.md).

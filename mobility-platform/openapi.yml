@@ -683,6 +683,14 @@ paths:
       summary: "Retrieve root"
       tags:
         - meta
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/' \
+              --header 'Accept: text/html'
 
   /v1:
     get:
@@ -697,6 +705,14 @@ paths:
       summary: "Retrieve API root"
       tags:
         - meta
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1' \
+              --header 'Accept: text/html'
 
   /v1/device/status:
     get:
@@ -714,6 +730,14 @@ paths:
       tags:
         - device
         - terraform-enabled
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/status' \
+              --header 'Accept: application/json'
       x-terraform-types:
         - datasource
 
@@ -733,6 +757,14 @@ paths:
       tags:
         - device
         - terraform-enabled
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/battery' \
+              --header 'Accept: application/json'
       x-terraform-types:
         - datasource
 
@@ -760,6 +792,16 @@ paths:
       summary: "Initiate reboot"
       tags:
         - device
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request POST \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/reboot' \
+              --header 'Content-Type: application/json' \
+              --header 'x-api-key: <api-key>' \
+              --data '{"reboot": true}'
 
   /v1/device/wifi:
     get:
@@ -777,6 +819,14 @@ paths:
       tags:
         - device-wifi
         - terraform-enabled
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/wifi' \
+              --header 'Accept: application/json'
       x-terraform-types:
         - datasource
 
@@ -800,6 +850,15 @@ paths:
       summary: "Update Wi-Fi configuration"
       tags:
         - device-wifi
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request POST \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/wifi' \
+              --header 'Content-Type: application/json' \
+              --data '{"ssid": "workloads", "password": "workloads"}'
 
   /v1/device/wifi/scan:
     get:
@@ -816,6 +875,14 @@ paths:
       summary: "Initiate Wi-Fi scan"
       tags:
         - device-wifi
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/wifi/scan' \
+              --header 'Accept: application/json'
       x-terraform-types:
         - datasource
 
@@ -834,6 +901,14 @@ paths:
       summary: "Retrieve health status"
       tags:
         - health
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/healthz' \
+              --header 'Accept: application/json'
       x-terraform-types:
         - datasource
 
@@ -870,6 +945,15 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request DELETE \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement/550e8400-e29b-41d4-a716-446655440000' \
+              --header 'Content-Type: application/json' \
+              --data '{"id": "movement-1ab2", "name": "Movement Plan"}'
       x-terraform-types:
         - resource
 
@@ -891,6 +975,14 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement' \
+              --header 'Accept: application/json'
       x-terraform-types:
         - datasource
         - resource
@@ -918,6 +1010,15 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request POST \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement' \
+              --header 'Content-Type: application/json' \
+              --data '{"name": "Movement Plan", "persist": true, "steps": [{"bearing": 90, "direction": "forward", "distance": 10}]}'
       x-terraform-types:
         - resource
 
@@ -943,6 +1044,15 @@ paths:
       summary: "Allow movements"
       tags:
         - movement
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request DELETE \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement/lock' \
+              --header 'Content-Type: application/json' \
+              --data '{"locked": false}'
 
     post:
       description: "Disallow movements"
@@ -964,6 +1074,15 @@ paths:
       summary: "Disallow movements"
       tags:
         - movement
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request POST \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement/lock' \
+              --header 'Content-Type: application/json' \
+              --data '{"locked": true}'
 
     get:
       description: "Retrieve the movement lock status"
@@ -980,6 +1099,14 @@ paths:
       tags:
         - movement
         - terraform-enabled
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement/lock' \
+              --header 'Accept: application/json'
       x-terraform-types:
         - datasource
 
@@ -998,6 +1125,14 @@ paths:
       summary: "Retrieve readiness status"
       tags:
         - health
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/readyz' \
+              --header 'Accept: application/json'
       x-terraform-types:
         - datasource
 
