@@ -39,7 +39,7 @@ info:
 components:
   # see https://swagger.io/specification/#schema-object
   schemas:
-    Device:
+    DeviceStatus:
       description: "Response containing the device status"
       example:
         features:
@@ -539,11 +539,11 @@ components:
 
   # see https://swagger.io/specification/#responses-object
   responses:
-    Device:
+    DeviceStatus:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Device"
+            $ref: "#/components/schemas/DeviceStatus"
       description: "Response containing the device status"
 
     DeviceBattery:
@@ -722,7 +722,7 @@ paths:
       operationId: getDeviceStatus
       responses:
         '200':
-          $ref: "#/components/responses/Device"
+          $ref: "#/components/responses/DeviceStatus"
         '400':
           $ref: "#/components/responses/ErrorBadRequest"
         '500':
