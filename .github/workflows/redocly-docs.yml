@@ -10,6 +10,7 @@ on:  # yamllint disable-line rule:truthy
 
 env:
   REDOCLY_CONFIG: ".redocly.yml"
+  REDOCLY_FORMAT: "github-actions"
   REDOCLY_OUTPUT: "dist/"
 
 jobs:
