@@ -1,0 +1,36 @@
+---
+
+name: "Code Quality: Super-Linter"
+
+on:  # yamllint disable-line rule:truthy
+  push:
+
+jobs:
+  superlinter:
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}"
+      cancel-in-progress: true
+
+    name: Super-Linter
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Super-Linter needs full git history
+          fetch-depth: 0
+
+      - name: Lint Code with Super-Linter
+        uses: super-linter/super-linter/slim@v6
+        env:
+          DEFAULT_BRANCH: main
+          DISABLE_ERRORS: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_MD: true
+          VALIDATE_OPENAPI: true
+          VALIDATE_YML: true

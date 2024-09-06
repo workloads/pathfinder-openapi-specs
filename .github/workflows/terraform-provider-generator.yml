@@ -1,0 +1,172 @@
+---
+
+name: "Terraform: Provider Generator"
+
+on:  # yamllint disable-line rule:truthy
+  push:
+#    branches:
+#      - main
+
+env:
+  CACHE_KEY: "${{ github.repository }}-${{ github.ref }}"
+  CACHE_PATHS: |
+    ~/.cache/go-build
+    /go/bin
+    /home/runner/go/bin/
+
+  GO_VERSION: 1.23
+
+  OPENAPI_GENERATOR_CONFIG: generator_config.yml
+  OPENAPI_GENERATOR_INPUT: openapi.yml
+  OPENAPI_GENERATOR_OUTPUT: provider_code_spec.json
+
+jobs:
+  install-binaries:
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}"
+      cancel-in-progress: false
+
+    name: install-binaries
+    runs-on: ubuntu-latest
+
+    strategy:
+      # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
+      matrix:
+        tools:
+          - binary: tfplugingen-framework
+            repository: "github.com/hashicorp/terraform-plugin-codegen-framework/cmd/tfplugingen-framework@latest"
+          - binary: tfplugingen-openapi
+            repository: "github.com/hashicorp/terraform-plugin-codegen-openapi/cmd/tfplugingen-openapi@latest"
+
+    timeout-minutes: 5
+
+    steps:
+      # see https://github.com/marketplace/actions/checkout
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # see https://github.com/marketplace/actions/setup-go-environment
+      - name: Setup Go `v${{ env.GO_VERSION }}`
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      # see https://github.com/actions/cache
+      - name: Restore Cache
+        uses: actions/cache@v4
+        with:
+          key: "${{ env.CACHE_KEY }}"
+          path: ${{ env.CACHE_PATHS }}
+
+      # see https://github.com/actions/cache
+      - name: Populate Cache
+        uses: actions/cache@v4
+        with:
+          key: "${{ env.CACHE_KEY }}"
+          path: ${{ env.CACHE_PATHS }}
+
+      - name: Install `${{ matrix.tools.binary }}`
+        run: |
+          go \
+            install \
+              "${{ matrix.tools.repository }}"
+
+      - name: Print `${{ matrix.tools.binary }}` version
+        run: |
+          ${{ matrix.tools.binary }} \
+            --version
+
+  generate-provider:
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}"
+      cancel-in-progress: false
+
+    name: generate-provider
+    needs: install-binaries
+    runs-on: ubuntu-latest
+
+    strategy:
+      # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
+      matrix:
+        # TODO: make this a more global setting
+        targets:
+          - "./mobility-platform"
+
+    timeout-minutes: 5
+
+    steps:
+      # see https://github.com/actions/cache
+      - name: Restore existing cache
+        uses: actions/cache@v4
+        with:
+          key: "${{ env.CACHE_KEY }}"
+          path: ${{ env.CACHE_PATHS }}
+
+      # TODO:
+      - name: Render Terraform Provider spec with `tfplugingen-openapi`
+        run: |
+          echo tfplugingen-openapi \
+            generate \
+              --config "${{ matrix.targets }}${{ env.OPENAPI_GENERATOR_CONFIG }}" \
+              --output "${{ matrix.targets }}${{ env.OPENAPI_GENERATOR_OUTPUT }}" \
+              "${{ matrix.targets }}${{ env.OPENAPI_GENERATOR_INPUT }}"
+
+  commit-changes:
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.ref }}"
+      cancel-in-progress: false
+
+    name: commit-changes
+    needs: generate-provider
+
+    # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+    permissions:
+      # needed for `git-auto-commit-action` to be able to make changes to the generated output file
+      contents: write
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      # see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
+      matrix:
+        # TODO: make this a more global setting
+        targets:
+          - "./mobility-platform"
+
+    timeout-minutes: 5
+
+    steps:
+      - name: Add updated Output to Repository
+        run: |
+         echo "Add updated Output to Repository"
+
+#      # see https://github.com/marketplace/actions/git-auto-commit
+#      - name: Add updated Output to Repository
+#        uses: stefanzweifel/git-auto-commit-action@v5
+#        with:
+#          commit_author: "GitHub Actions <github-actions[bot]@users.noreply.github.com>"
+#          commit_message: automated update of rendered provider specification
+#          commit_options: "--no-verify --signoff"
+#          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+#          commit_user_name: "github-actions[bot]"
+#
+#          create_branch: true
+#
+#          disable_globbing: true
+#
+#          file_pattern: "${{ env.OPENAPI_GENERATOR_OUTPUT }}"
+#          repository: .
+#          status_options: "--untracked-files=normal"
+#
+#          skip_dirty_check: false
+#          skip_fetch: false
+#          skip_checkout: true

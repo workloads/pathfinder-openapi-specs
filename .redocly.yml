@@ -1,0 +1,247 @@
+---
+
+# see https://redocly.com/docs/cli/configuration/reference/apis
+# see https://redocly.com/docs/cli/configuration/reference/apis#api-object
+apis:
+  mobility-platform@v1:
+    # see https://redocly.com/docs/cli/configuration/reference/decorators
+    decorators:
+      # Arduino-specific decorators
+      arduino-webserver-config/render-config: on  # yamllint disable-line rule:truthy
+      arduino-webserver-config/remove-cruft: on  # yamllint disable-line rule:truthy
+
+      # Terraform-specific decorators
+      tfplugingen-config/render-config: on  # yamllint disable-line rule:truthy
+      tfplugingen-config/remove-cruft: on  # yamllint disable-line rule:truthy
+
+    root: mobility-platform/openapi.yml
+
+# see https://redocly.com/docs/cli/configuration/reference/extends
+extends:
+  # see https://redocly.com/docs/cli/rules/recommended#recommended-strict-ruleset
+  - recommended-strict
+
+# see https://redocly.com/docs/cli/configuration/reference/plugins
+plugins:
+  - "../redocly-arduino-webserver-config/main.js"
+  - "../redocly-tfplugingen-config/main.js"
+
+# see https://redocly.com/docs/cli/configuration/reference/rules
+rules:
+  # `info.contact` must be present
+  info-contact: error
+
+  # `info.license` must be present
+  info-license: error
+
+  # ignore requirement for `info.license.url` as the spec provides `info.license.identifier`
+  # see https://redocly.com/docs/cli/rules/info-license-url
+  info-license-url: off  # yamllint disable-line rule:truthy
+
+  # paths must not be ambiguous
+  no-ambiguous-paths: error
+
+  # paths must not have HTTP verbs
+  no-http-verbs-in-paths: error
+
+  # paths must be unique
+  no-identical-paths: error
+
+  # schema examples must be valid
+  no-invalid-schema-examples: error
+
+  # paths must not have trailing slashes
+  no-path-trailing-slash: error
+
+  # see https://redocly.com/docs/cli/rules/no-server-example-com
+  no-server-example.com: error
+
+  # server variables must be defined
+  no-undefined-server-variable: error
+
+  # refs must not be unresolved
+  no-unresolved-refs: error
+
+  # path must not include parameters
+  path-not-include-query: error
+
+  # path segments must not be plural
+  path-segment-plural:
+    severity: off  # yamllint disable-line rule:truthy
+
+  # operations must have at least one 2xx and 4xx response
+  operation-2xx-response: error
+  operation-4xx-response: error
+
+  # 4xx operations must conform to the RFC 7807 format
+  # (this may switch to RFC 9457 format in the future)
+  # see https://redocly.com/docs/cli/rules/operation-4xx-problem-details-rfc7807
+  operation-4xx-problem-details-rfc7807: error
+
+  # operations must have an operation identifier and it must be unique
+  operation-operationId: error
+  operation-operationId-unique: error
+
+  # operations must have a tag
+  operation-tag-defined: error
+
+  # requests must have one of the allowed MIME types
+  request-mime-type:
+    severity: error
+    allowedValues:
+      - "application/json"
+      - "application/problem+json"
+      - "text/html"
+
+  # responses must contain the required properties
+  response-contains-property:
+    severity: error
+    names:
+      4xx:
+        - message
+        - status
+      5xx:
+        - message
+        - status
+
+  # responses must have one of the allowed MIME types
+  response-mime-type:
+    severity: error
+    allowedValues:
+      - "application/json"
+      - "application/problem+json"
+      - "text/html"
+
+  # descriptions must start with a capital letter
+  rule/description-capitalization:
+    subject:
+      type: any
+      property: description
+    assertions:
+      pattern: /^([A-Z]|)/
+
+  # headers must include an example
+  rule/headers-include-example:
+    subject:
+      type: Header
+      property: example
+    assertions:
+      defined: true
+      nonEmpty: true
+
+  # `info.description` must be present`
+  rule/info-description:
+    subject:
+      type: Info
+      property: description
+    assertions:
+      defined: true
+
+  # `info.title` must not include `API`
+  rule/omit-title-api:
+    subject:
+      type: Info
+      property: title
+    assertions:
+      notPattern: /.*API.*/
+
+  # operation identifiers must have the correct case
+  rule/operationId-casing:
+    subject:
+      type: Operation
+      property: operationId
+    assertions:
+      casing: camelCase
+
+  # operation identifiers must have the correct prefix
+  rule/operationId-prefix:
+    subject:
+      type: Operation
+      property: operationId
+    assertions:
+      pattern: /^GET|POST|DELETE/i
+
+  # operation summaries must start with an allowed word
+  rule/operation-summary:
+    subject:
+      type: Operation
+      property: summary
+    where:
+      - subject:
+          type: Paths
+        assertions:
+          defined: true
+    assertions:
+      pattern: /^(Allow|Disallow|Initiate|Retrieve|Stop|Update).*[^\.]$/
+
+  # operation summaries must start with an allowed word
+  rule/operation-summary-check:
+    subject:
+      type: Operation
+      property: summary
+    assertions:
+      pattern: /^(Allow|Disallow|Initiate|Retrieve|Stop|Update).*[^.]$/
+
+  # operation summaries must not end with a period character
+  rule/operation-summary-period:
+    subject:
+      type: Operation
+      property: summary
+    assertions:
+      pattern: /[^.]$/
+
+  # parameters must have the correct case
+  rule/parameter-casing:
+    subject:
+      type: Parameter
+    assertions:
+      casing: camelCase
+
+  # parameters must include examples
+  rule/params-must-include-examples:
+    severity: error
+    subject:
+      type: Parameter
+    assertions:
+      requireAny:
+        - examples
+      mutuallyRequired:
+        - examples
+
+  # schemas must have the correct case
+  rule/schema-properties-casing:
+    subject:
+      type: Schema
+      property: properties
+    assertions:
+      casing: camelCase
+  scalar-property-missing-example: error
+
+  # security must be defined, even if its empty
+  security-defined: error
+
+  # tags must have a description
+  tag-description: error
+
+  # tags must be in alphabetical order
+  tags-alphabetical: error
+
+# see https://redocly.com/docs/cli/configuration#configure-openapi-features-and-documentation-styles-in-theme
+theme:
+  # see https://redocly.com/docs/redoc/config
+  openapi:
+    disableSearch: false
+
+    # see https://redocly.com/docs/redoc/config#expandresponses
+    expandResponses: '200'
+
+    # see https://redocly.com/docs/api-reference-docs/guides/generate-code-samples#api-docs-configuration
+    generateCodeSamples:
+      languages:
+        - lang: curl
+
+    hideDownloadButton: true
+    hideHostname: true
+    hideLoading: true
+    nativeScrollbars: true
+    requiredPropsFirst: true

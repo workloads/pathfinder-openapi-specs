@@ -1,0 +1,1210 @@
+---
+
+openapi: 3.1.0
+
+# see https://swagger.io/specification/#info-object
+info:
+  title: "Pathfinder - Mobility Platform"
+  version: 0.10.0
+
+  # see https://swagger.io/specification/#contact-object
+  contact:
+    email: github.com/workloads
+    name: Project Maintainers
+    url: "https://github.com/workloads/pathfinder/issues"
+
+  description: |
+    This OpenAPI specification describes the programmatic interface of the _Pathfinder Mobility Platform_.
+
+    For more information, see the `externalDocs` in this file as well as [github.com/workloads/pathfinder](https://github.com/workloads/pathfinder).
+
+  # see https://swagger.io/specification/#license-object
+  license:
+    name: Apache License 2.0
+    identifier: Apache-2.0
+
+  summary: "Pathfinder - Mobility Platform"
+
+  termsOfService: "https://github.com/workloads/.github/blob/main/CONTRIBUTING.md"
+
+  # see https://github.com/Redocly/redoc/blob/main/docs/redoc-vendor-extensions.md#x-logo
+  x-logo:
+    url: "https://assets.workloads.io/pathfinder/mobility-platform-logo.png"
+    backgroundColor: "#282433"
+    altText: Pathfinder logo
+
+  x-terraform-provider-name: pathfinder
+
+# see https://swagger.io/specification/#components-object
+components:
+  # see https://swagger.io/specification/#schema-object
+  schemas:
+    DeviceStatus:
+      description: "Response containing the device status"
+      example:
+        features:
+          isHttpEnabled: true
+          isInsightsEnabled: false
+        identifiers:
+          long: pathfinder-000000000000C418
+          short: pathfinder-c418
+        name: Pathfinder
+        uptime: 1234
+        versions:
+          api: 0.1.0
+          app: 0.10.0
+      properties:
+        features:
+          additionalProperties:
+            $ref: "#/components/schemas/FeatureFlagItem"
+          description: "Feature flags"
+          examples:
+            - isHttpEnabled: true
+            - isInsightsEnabled: false
+          type: object
+        identifiers:
+          description: "Identifiers"
+          properties:
+            long:
+              description: "Long identifier"
+              examples:
+                - pathfinder-000000000000C418
+              type: string
+            short:
+              description: "Short identifier"
+              examples:
+                - pathfinder-c418
+              type: string
+          required:
+            - short
+            - long
+          type: object
+        name:
+          description: "Name"
+          examples:
+            - Pathfinder
+          type: string
+        uptime:
+          description: "Uptime (in seconds)"
+          examples:
+            - 1234
+          type: number
+        versions:
+          description: "Versions"
+          properties:
+            api:
+              description: "API version"
+              examples:
+                - 0.1.0
+                - 1.0.0
+              type: string
+            app:
+              description: "Application version"
+              examples:
+                - 0.10.0
+                - 1.0.0
+              type: string
+          required:
+            - api
+            - app
+          type: object
+      required:
+        - features
+        - identifiers
+        - name
+        - uptime
+        - versions
+      type: object
+
+    DeviceBattery:
+      description: "Response containing the battery status"
+      examples:
+        - shuntVoltage:
+            unit: mV
+            value: 1
+          busVoltage:
+            unit: mV
+            value: 2
+          current:
+            unit: mA
+            value: 3
+          power:
+            unit: mW
+            value: 4
+          loadVoltage:
+            unit: mV
+            value: 5
+          ina219Overflow: false
+      properties:
+        shuntVoltage:
+          $ref: "#/components/schemas/DeviceBatteryItem"
+        busVoltage:
+          type: object
+          $ref: "#/components/schemas/DeviceBatteryItem"
+        current:
+          type: object
+          $ref: "#/components/schemas/DeviceBatteryItem"
+        power:
+          type: object
+          $ref: "#/components/schemas/DeviceBatteryItem"
+        loadVoltage:
+          type: object
+          $ref: "#/components/schemas/DeviceBatteryItem"
+        ina219Overflow:
+          type: boolean
+          examples:
+            - true
+            - false
+      type: object
+
+    DeviceBatteryItem:
+      description: "Structure of a single battery item"
+      examples:
+        - unit: mA
+          value: 1
+        - unit: mV
+          value: 2
+      properties:
+        unit:
+          description: "Unit of the battery item"
+          examples:
+            - mA  # milli ampere
+            - mV  # milli volt
+            - V   # volt
+          type: string
+        value:
+          description: "Value of the battery item"
+          examples:
+            - 1
+            - 2
+          type: integer
+      required:
+        - unit
+        - value
+      type: object
+
+    DeviceReboot:
+      description: "Response containing the reboot status"
+      examples:
+        - reboot: true
+      properties:
+        reboot:
+          description: "Reboot status"
+          examples:
+            - true
+          type: boolean
+      required:
+        - reboot
+      type: object
+
+    DeviceWifi:
+      description: "Response containing the Wi-Fi network"
+      items:
+        $ref: "#/components/schemas/DeviceWifiNetworkItem"
+      type: array
+      maximum: 1
+      minimum: 1
+
+    DeviceWifiRequest:
+      description: "Request containing a Wi-Fi network configuration"
+      examples:
+        - password: workloads
+          ssid: workloads
+      properties:
+        password:
+          description: "Password"
+          examples:
+            - workloads
+          type: string
+        ssid:
+          description: "SSID"
+          examples:
+            - workloads
+          type: string
+      required:
+        - password
+        - ssid
+      type: object
+
+    DeviceWifiNetworkItem:
+      description: "Structure of a single Wi-Fi network item"
+      examples:
+        - encrypted: true
+          rssi: -30
+          ssid: workloads
+      properties:
+        encrypted:
+          description: "Encryption status"
+          examples:
+            - true
+          type: boolean
+        rssi:
+          description: "RSSI (in dBm)"
+          examples:
+            - -30  # great signal
+            - -67  # okay signal
+            - -90  # unusable signal
+          format: float
+          type: number
+        ssid:
+          description: "SSID"
+          examples:
+            - workloads
+          type: string
+      required:
+        - encrypted
+        - rssi
+        - ssid
+      type: object
+
+    DeviceWifiScan:
+      description: "Response containing the detected Wi-Fi networks"
+      items:
+        $ref: "#/components/schemas/DeviceWifiNetworkItem"
+      type: array
+
+    ErrorMessage:
+      description: "Response containing the error"
+      examples:
+        - title: Bad Request
+          type: 400
+        - title: Internal Server Error
+          type: 500
+      properties:
+        title:
+          description: "Title of error"
+          examples:
+            - Bad Request
+            - Internal Server Error
+          type: string
+        type:
+          description: "Type of error"
+          examples:
+            - 400
+            - 500
+          type: number
+      required:
+        - title
+        - type
+      type: object
+
+    ErrorBadRequest:
+      allOf:
+        - $ref: "#/components/schemas/ErrorMessage"
+        - type: object
+          properties:
+            title:
+              type: string
+              examples:
+                - Bad Request
+            type:
+              type: number
+              examples:
+                - 400
+      examples:
+        - title: Bad Request
+          type: 400
+
+    ErrorForbidden:
+      allOf:
+        - $ref: "#/components/schemas/ErrorMessage"
+        - type: object
+          properties:
+            title:
+              type: string
+              examples:
+                - Forbidden
+            type:
+              type: number
+              examples:
+                - 403
+      examples:
+        - title: Forbidden
+          type: 403
+
+    ErrorInternalServerError:
+      allOf:
+        - $ref: "#/components/schemas/ErrorMessage"
+        - type: object
+          properties:
+            title:
+              type: string
+              examples:
+                - Internal Server Error
+            type:
+              type: number
+              examples:
+                - 500
+      examples:
+        - title: Internal Server Error
+          type: 500
+
+    ErrorNotFound:
+      allOf:
+        - $ref: "#/components/schemas/ErrorMessage"
+        - type: object
+          properties:
+            title:
+              type: string
+              example: Not Found
+            type:
+              type: number
+              example: 400
+      examples:
+        - title: Not Found
+          type: 404
+
+    ErrorUnauthorized:
+      allOf:
+        - $ref: "#/components/schemas/ErrorMessage"
+        - type: object
+          properties:
+            title:
+              type: string
+              examples:
+                - Unauthorized
+            type:
+              type: number
+              examples:
+                - 401
+      examples:
+        - title: Unauthorized
+          type: 401
+
+    FeatureFlagItem:
+      description: "Structure of a single feature flag item"
+      examples:
+        - true
+        - false
+      type: boolean
+
+    Healthz:
+      description: "Response containing the health status"
+      examples:
+        - healthy: true
+      properties:
+        healthy:
+          description: "Health status"
+          examples:
+            - true
+          type: boolean
+      required:
+        - healthy
+      type: object
+
+    MovementDelete:
+      description: "Request containing the movement identifier TODO"
+      examples:
+        - id: movement-1ab2
+          name: Movement Plan
+      properties:
+        id:
+          description: "Identifier of the movement plan"
+          examples:
+            - movement-1ab2
+          type: string
+        name:
+          description: "Name of the movement plan"
+          examples:
+            - Movement Plan
+            - movement-plan
+          type: string
+      required:
+        - id
+        - name
+      type: object
+
+    MovementLock:
+      description: "Response containing the movement lock status"
+      examples:
+        - locked: true
+      properties:
+        locked:
+          description: "Movement lock status"
+          examples:
+            - true
+          type: boolean
+      required:
+        - locked
+      type: object
+
+    MovementStepItem:
+      description: "Structure of a single movement step"
+      examples:
+        - bearing: 90
+          direction: forward
+          distance: 10
+      # see https://swagger.io/specification/#external-documentation-object
+      externalDocs:
+        description: "Documentation on the Schema of a Movement Plans"
+        url: "https://github.com/workloads/pathfinder-openapi-specs/blob/main/movement-plan/README.md"
+      properties:
+        bearing:
+          description: "Angle (in degrees) of movement"
+          examples:
+            - 90
+          maximum: 360
+          minimum: -360
+          type: integer
+        direction:
+          description: "Direction of movement"
+          enum:
+            - backward
+            - forward
+          examples:
+            - forward
+          type: string
+        distance:
+          description: "Distance (in centimeters) of movement"
+          examples:
+            - 10
+          maximum: 100
+          minimum: 1
+          type: number
+      required:
+        - bearing
+        - direction
+        - distance
+      type: object
+
+    MovementRequest:
+      description: "Request for a movement"
+      examples:
+        - name: Movement Plan
+          persist: true
+          steps:
+            - bearing: 90
+              direction: forward
+              distance: 10
+      properties:
+        name:
+          description: "Name of the movement plan"
+          examples:
+            - Movement Plan
+            - movement-plan
+          type: string
+        persist:
+          description: "Persist the movement plan to the filesystem"
+          examples:
+            - true
+          type: boolean
+        steps:
+          description: "List of movement steps"
+          items:
+            $ref: "#/components/schemas/MovementStepItem"
+          maxItems: 50
+          minItems: 1
+          type: array
+      required:
+        - name
+        - persist
+        - steps
+      type: object
+
+    MovementResponse:
+      description: "Response containing the movement operation status"
+      examples:
+        - id: movement-1ab2
+          name: Movement Plan
+      properties:
+        id:
+          description: "Identifier of the movement plan"
+          examples:
+            - movement-1ab2
+          type: string
+        name:
+          description: "Name of the movement plan"
+          examples:
+            - Movement Plan
+            - movement-plan
+          type: string
+      required:
+        - id
+        - name
+      type: object
+
+    Readyz:
+      description: "Response containing the readiness status"
+      examples:
+        - ready: true
+      properties:
+        ready:
+          description: "Readiness status"
+          examples:
+            - true
+          type: boolean
+      required:
+        - ready
+      type: object
+
+  # see https://swagger.io/specification/#responses-object
+  responses:
+    DeviceStatus:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DeviceStatus"
+      description: "Response containing the device status"
+
+    DeviceBattery:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DeviceBattery"
+      description: "Response containing the battery status"
+
+    DeviceReboot:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DeviceReboot"
+      description: "Response containing the reboot status"
+
+    DeviceWifi:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DeviceWifi"
+      description: "Response containing the Wi-Fi status"
+
+    DeviceWifiScan:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DeviceWifiScan"
+      description: "Response containing the available Wi-Fi networks"
+
+    ErrorBadRequest:
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ErrorBadRequest"
+      description: "Response containing the error object"
+
+    ErrorForbidden:
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ErrorForbidden"
+      description: "Response containing the error object"
+
+    ErrorInternalServerError:
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ErrorInternalServerError"
+      description: "Response containing the error object"
+
+    ErrorNotFound:
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ErrorNotFound"
+      description: "Response containing the error object"
+
+    ErrorUnauthorized:
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ErrorUnauthorized"
+      description: "Response containing the error object"
+
+    Healthz:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Healthz"
+      description: "Response containing the health status"
+
+    InterfaceRoot:
+      content:
+        text/html:
+          schema:
+            type: string
+            examples:
+              - "<html><body>Index</body></html>"
+      description: "Response containing HTML"
+
+    InterfaceApiRoot:
+      content:
+        text/html:
+          schema:
+            type: string
+            examples:
+              - "<html><body>API Index</body></html>"
+      description: "Response containing HTML"
+
+    Movement:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MovementResponse"
+      description: "Response containing the movement response object"
+
+    MovementLock:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MovementLock"
+      description: "Response containing the movement lock object"
+
+    Readyz:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Readyz"
+      description: "Response containing the ready status"
+
+  # see https://swagger.io/specification/#security-scheme-object
+  securitySchemes:
+    apiKey:
+      description: "Access Key for endpoints requiring authorization"
+      in: header
+      name: x-api-key
+      type: apiKey
+
+# see https://swagger.io/specification/#external-documentation-object
+externalDocs:
+  description: "Project Documentation"
+  url: "https://github.com/workloads/pathfinder"
+
+# see https://swagger.io/specification/#paths-object
+paths:
+  /:
+    get:
+      description: "Retrieve the root HTML content."
+      operationId: getRootContent
+      responses:
+        '200':
+          $ref: "#/components/responses/InterfaceRoot"
+        '400':
+          $ref: "#/components/responses/InterfaceRoot"
+      security: []
+      summary: "Retrieve root"
+      tags:
+        - meta
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/' \
+              --header 'Accept: text/html'
+
+  /v1:
+    get:
+      description: "Retrieve the API root content."
+      operationId: getApiRootContent
+      responses:
+        '200':
+          $ref: "#/components/responses/InterfaceApiRoot"
+        '400':
+          $ref: "#/components/responses/InterfaceRoot"
+      security: []
+      summary: "Retrieve API root"
+      tags:
+        - meta
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1' \
+              --header 'Accept: text/html'
+
+  /v1/device/status:
+    get:
+      description: "Retrieve the device status."
+      operationId: getDeviceStatus
+      responses:
+        '200':
+          $ref: "#/components/responses/DeviceStatus"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security: []
+      summary: "Retrieve device status"
+      tags:
+        - device
+        - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/status' \
+              --header 'Accept: application/json'
+      x-terraform-types:
+        - datasource
+
+  /v1/device/battery:
+    get:
+      description: "Retrieve the battery status."
+      operationId: getDeviceBattery
+      responses:
+        '200':
+          $ref: "#/components/responses/DeviceBattery"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security: []
+      summary: "Retrieve battery status"
+      tags:
+        - device
+        - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/battery' \
+              --header 'Accept: application/json'
+      x-terraform-types:
+        - datasource
+
+  /v1/device/reboot:
+    post:
+      description: "Initiate a reboot."
+      operationId: postDeviceReboot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/DeviceReboot"
+      responses:
+        '200':
+          $ref: "#/components/responses/DeviceReboot"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '401':
+          $ref: "#/components/responses/ErrorUnauthorized"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security:
+        - apiKey: []
+      summary: "Initiate reboot"
+      tags:
+        - device
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request POST \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/reboot' \
+              --header 'Content-Type: application/json' \
+              --header 'x-api-key: <api-key>' \
+              --data '{"reboot": true}'
+
+  /v1/device/wifi:
+    get:
+      description: "Retrieve the Wi-Fi status."
+      operationId: getDeviceWifi
+      responses:
+        '200':
+          $ref: "#/components/responses/DeviceWifi"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security: []
+      summary: "Retrieve Wi-Fi status"
+      tags:
+        - device-wifi
+        - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/wifi' \
+              --header 'Accept: application/json'
+      x-terraform-types:
+        - datasource
+
+    post:
+      description: "Update the Wi-Fi configuration."
+      operationId: postDeviceWifiChange
+      responses:
+        '200':
+          $ref: "#/components/responses/DeviceWifi"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/DeviceWifiRequest"
+      security: []
+      summary: "Update Wi-Fi configuration"
+      tags:
+        - device-wifi
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request POST \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/wifi' \
+              --header 'Content-Type: application/json' \
+              --data '{"ssid": "workloads", "password": "workloads"}'
+
+  /v1/device/wifi/scan:
+    get:
+      description: "Initiate a Wi-Fi scan"
+      operationId: getDeviceWifiScan
+      responses:
+        '200':
+          $ref: "#/components/responses/DeviceWifiScan"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security: []
+      summary: "Initiate Wi-Fi scan"
+      tags:
+        - device-wifi
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/device/wifi/scan' \
+              --header 'Accept: application/json'
+      x-terraform-types:
+        - datasource
+
+  /v1/healthz:
+    get:
+      description: "Retrieve the health status"
+      operationId: getHealthz
+      responses:
+        '200':
+          $ref: "#/components/responses/Healthz"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security: []
+      summary: "Retrieve health status"
+      tags:
+        - health
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/healthz' \
+              --header 'Accept: application/json'
+      x-terraform-types:
+        - datasource
+
+  '/v1/movement/{movementIdentifier}':
+    delete:
+      description: "Delete a movement plan"
+      operationId: deleteMovement
+      parameters:
+        - description: "The identifier of the movement plan to delete"
+          examples:
+            example:
+              value: 550e8400-e29b-41d4-a716-446655440000
+          in: path
+          name: movementIdentifier
+          required: true
+          schema:
+            format: uuid
+            maxLength: 64
+            type: string
+      responses:
+        '200':
+          $ref: "#/components/responses/Movement"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MovementDelete"
+      security: []
+      summary: "Stop movement"
+      tags:
+        - movement
+        - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request DELETE \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement/550e8400-e29b-41d4-a716-446655440000' \
+              --header 'Content-Type: application/json' \
+              --data '{"id": "movement-1ab2", "name": "Movement Plan"}'
+      x-terraform-types:
+        - resource
+
+  /v1/movement:
+    get:
+      description: "Retrieve the movement status"
+      operationId: getMovement
+      responses:
+        '200':
+          $ref: "#/components/responses/Movement"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '404':
+          $ref: "#/components/responses/ErrorNotFound"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security: []
+      summary: "Retrieve movement status"
+      tags:
+        - movement
+        - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement' \
+              --header 'Accept: application/json'
+      x-terraform-types:
+        - datasource
+        - resource
+
+    post:
+      description: "Initiate a movement"
+      operationId: postMovement
+      responses:
+        '200':
+          $ref: "#/components/responses/Movement"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '403':
+          $ref: "#/components/responses/ErrorForbidden"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/MovementRequest"
+      security: []
+      summary: "Initiate movement"
+      tags:
+        - movement
+        - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request POST \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement' \
+              --header 'Content-Type: application/json' \
+              --data '{"name": "Movement Plan", "persist": true, "steps": [{"bearing": 90, "direction": "forward", "distance": 10}]}'
+      x-terraform-types:
+        - resource
+
+  /v1/movement/lock:
+    delete:
+      description: "Allow movements"
+      operationId: deleteMovementLock
+      responses:
+        '200':
+          $ref: "#/components/responses/MovementLock"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/MovementLock"
+      security:
+        - apiKey: []
+      summary: "Allow movements"
+      tags:
+        - movement
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request DELETE \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement/lock' \
+              --header 'Content-Type: application/json' \
+              --data '{"locked": false}'
+
+    post:
+      description: "Disallow movements"
+      operationId: postMovementLock
+      responses:
+        '200':
+          $ref: "#/components/responses/MovementLock"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/MovementLock"
+      security: []
+      summary: "Disallow movements"
+      tags:
+        - movement
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request POST \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement/lock' \
+              --header 'Content-Type: application/json' \
+              --data '{"locked": true}'
+
+    get:
+      description: "Retrieve the movement lock status"
+      operationId: getMovementLockStatus
+      responses:
+        '200':
+          $ref: "#/components/responses/MovementLock"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security: []
+      summary: "Retrieve movement lock status"
+      tags:
+        - movement
+        - terraform-enabled
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/movement/lock' \
+              --header 'Accept: application/json'
+      x-terraform-types:
+        - datasource
+
+  /v1/readyz:
+    get:
+      description: "Retrieve the readiness status"
+      operationId: getReadyz
+      responses:
+        '200':
+          $ref: "#/components/responses/Readyz"
+        '400':
+          $ref: "#/components/responses/ErrorBadRequest"
+        '500':
+          $ref: "#/components/responses/ErrorInternalServerError"
+      security: []
+      summary: "Retrieve readiness status"
+      tags:
+        - health
+      # see https://redocly.com/docs/api-reference-docs/specification-extensions/x-code-samples
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl \
+              --request GET \
+              --url 'http://mock.local.svcs.dev:7284/v1/readyz' \
+              --header 'Accept: application/json'
+      x-terraform-types:
+        - datasource
+
+# security requirements are set on a per-operation basis
+# see https://swagger.io/specification/#security-scheme-object
+security: []
+
+# see https://swagger.io/specification/#server-object
+servers:
+  - description: "Mock HTTP interface for testing"
+    url: "http://mock.local.svcs.dev:7284"
+
+  - description: "On-device HTTP interface"
+    url: "http://pathfinder-{deviceIdentifier}.local.workloads.io:7284"
+
+    # see https://swagger.io/specification/#server-variable-object
+    variables:
+      deviceIdentifier:
+        default: 0a1b
+        description: "short device-specific identifier string (4 characters)"
+
+# see https://swagger.io/specification/#tag-object
+tags:
+  - name: authorization
+    description: "Endpoints requiring normal authorization"
+    x-displayName: Authorization
+
+  - name: authorization-sudo
+    description: "Endpoints requiring elevated authorization"
+    x-displayName: Elevated Authorization
+
+  - description: "Endpoints for retrieving device status"
+    name: device
+    x-displayName: Device
+
+  - description: "Endpoints for retrieving and managing Wi-Fi connections"
+    name: device-wifi
+    x-displayName: Device / Wi-Fi
+
+  - description: "Endpoints for retrieving health and readiness status"
+    name: health
+    x-displayName: Health
+
+  - description: "Meta Endpoints for retrieving"
+    name: meta
+    x-displayName: Meta
+
+  - name: movement
+    description: "Endpoints for managing and monitoring movements"
+    x-displayName: Movement
+
+  - name: terraform-enabled
+    description: "Endpoints supported by the Terraform Provider for Pathfinder"
+    x-displayName: Terraform-enabled
+
+    # see https://swagger.io/specification/#external-documentation-object
+    externalDocs:
+      description: "Terraform Provider for Pathfinder"
+      url: "https://github.com/workloads/terraform-provider-pathfinder"
