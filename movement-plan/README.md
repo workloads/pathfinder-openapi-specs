@@ -87,7 +87,7 @@ This section provides an example of a movement plan that represents 10 of the 34
 
 ```hcl
 step {
-  bearing     = 0
+  bearing   = 0
   direction = "forward"
   distance  = "50"
 }
@@ -101,7 +101,7 @@ step {
 
 ```hcl
 step {
-  bearing     = -25
+  bearing   = -25
   direction = "forward"
   distance  = "10"
 }
@@ -115,7 +115,7 @@ step {
 
 ```hcl
 step {
-  bearing     = -20
+  bearing   = -20
   direction = "forward"
   distance  = "10"
 }
